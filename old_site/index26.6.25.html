@@ -37,12 +37,12 @@
         }
         
         .logo-container {
-            position: static;
+            position: static;  /* Was: absolute */
             margin: 0 auto 24px auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 180px;
+            width: 180px; /* Adjust as needed */
             height: 180px;
             z-index: 1;
             opacity: 1;
@@ -51,10 +51,11 @@
         .logo-visual {
             width: 100%;
             height: 100%;
+            /*background: #8b5cf6;  Purple background */
             border-radius: 50%;
             position: relative;
             animation: logoBreath 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.4));
+            filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.4)); /* Purple shadow */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -67,7 +68,7 @@
             content: '';
             position: absolute;
             top: -16px; left: -16px; right: -16px; bottom: -16px;
-            border: 4px solid rgba(139, 92, 246, 0.5);
+            border: 4px solid rgba(139, 92, 246, 0.5); /* Purple border */
             border-radius: 50%;
             box-shadow: 0 0 60px 20px rgba(139, 92, 246, 0.5);
             animation: logoRing 4s ease-in-out infinite;
@@ -561,6 +562,7 @@
             50% { transform: scale(1.05); }
         }
         
+        /* תמונות עגולות - עדכון עבור IMG במקום DIV */
         .speaker-placeholder img,
         .facilitator-placeholder img,
         .facilitator-mini img,
@@ -574,6 +576,7 @@
             image-rendering: crisp-edges;
         }
         
+        /* במקרה שמשתמשים בתמונות במקום DIV */
         img.speaker-placeholder,
         img.facilitator-placeholder,
         img.facilitator-mini,
@@ -718,11 +721,45 @@
                 <div class="workshop">
                     <div class="workshop-header">
                         <div class="workshop-badges">
+                            <div class="workshop-badge">💫 סדנה בסיסית</div>
+                        </div>
+                        <img src="images/mini/team-mini.jpg" alt="צוות מנחים" class="facilitator-mini">
+                    </div>
+                    <h3 class="workshop-title">סדנה 1: ברוכים הבאים לעולם הפלאות של כלי AI</h3>
+                    <p class="workshop-subtitle">🎭 הצעד הראשון - למתחילים הנועזים</p>
+                    <div class="workshop-description">
+                        מיועד לכל מי שעדיין לא העז להתעסק עם כלי AI. בואו לגלות עולם שבו תמונות נוצרות ממילים, טקסטים נכתבים בהזמנה, ומשימות מורכבות הופכות פשוטות.
+                    </div>
+                    <div class="workshop-closing">
+                        "סוף סוף תבינו למה כולם כל כך מתלהבים!"
+                    </div>
+                </div>
+
+                <div class="workshop">
+                    <div class="workshop-header">
+                        <div class="workshop-badges">
+                            <div class="workshop-badge">📝 יצירת תוכן</div>
+                        </div>
+                        <img src="images/mini/team-mini.jpg" alt="צוות מנחים" class="facilitator-mini">
+                    </div>
+                    <h3 class="workshop-title">סדנה 2: כתיבת שאלות בשיתוף פעולה עם כלי AI</h3>
+                    <p class="workshop-subtitle">🤝 הקולגה החדש שלכם במשרד</p>
+                    <div class="workshop-description">
+                        גלו איך כלי AI יכולים להפוך לקולגה זמין וחרוץ עם ידע, תובנות ונכונות תמידית לעזור. למדו ליצור שאלות מבחן איכותיות ולקבל השראה לתכנים חדשים.
+                    </div>
+                    <div class="workshop-closing">
+                        "כי מי לא צריך עוזר אישי שזמין 24/7?"
+                    </div>
+                </div>
+
+                <div class="workshop">
+                    <div class="workshop-header">
+                        <div class="workshop-badges">
                             <div class="workshop-badge">🎯 הערכה מתקדמת</div>
                         </div>
                         <img src="images/mini/dror-kela-mini.jpg" alt="דרור קלע" class="facilitator-mini">
                     </div>
-                    <h3 class="workshop-title">סדנה 1: יצירת פתרון מבחן + מחוון בדיקה</h3>
+                    <h3 class="workshop-title">סדנה 3: יצירת פתרון מבחן + מחוון בדיקה</h3>
                     <p class="workshop-subtitle">🎯 מהמבחן למחוון בתהליך אחד</p>
                     <div class="workshop-description">
                         גלו איך כלי AI יכולים ליצור עבורכם לא רק פתרון מבחן מעולה, אלא גם את המחוון המלא להערכתו ואפילו את המיומנויות והידע אותו כל סעיף בודק.
@@ -737,9 +774,9 @@
                         <div class="workshop-badges">
                             <div class="workshop-badge">🤖 בדיקה חכמה</div>
                         </div>
-                        <div class="facilitator-mini">אח</div>
+                        <img src="images/mini/eliran-chen-mini.jpg" alt="אלירן חן" class="facilitator-mini">
                     </div>
-                    <h3 class="workshop-title">סדנה 2: בדיקת מטלות עם כלי AI</h3>
+                    <h3 class="workshop-title">סדנה 4: בדיקת מטלות עם כלי AI</h3>
                     <p class="workshop-subtitle">🤖 העוזר החכם שלא נגמרת לו הסבלנות</p>
                     <div class="workshop-description">
                         גלו איך כלי AI יכולים לעזור לכם לבדוק מטלות בצורה יעילה ולתת משוב מפורט לתלמידים. התנסות בכלי בדיקה מתקדמים בשילוב עם פטל!
@@ -754,9 +791,9 @@
                         <div class="workshop-badges">
                             <div class="workshop-badge">🎓 למידה בכיתה</div>
                         </div>
-                        <img src="images/mini/arik-galboa-mini.jpg" alt="אריק גלבוע" class="facilitator-mini">
+                        <img src="images/mini/arik-galboa-mini.png" alt="אריק גלבוע" class="facilitator-mini">
                     </div>
-                    <h3 class="workshop-title">סדנה 3: לשלב AI בכיתה</h3>
+                    <h3 class="workshop-title">סדנה 5: לשלב AI בכיתה</h3>
                     <p class="workshop-subtitle">🎓 התלמידים כשותפים בלמידה</p>
                     <div class="workshop-description">
                         איך הופכים את התלמידים לשותפים פעילים בעבודה עם כלי AI? בואו לגלות דרכים מעשיות לשלב LLM בלמידה - יצירת גרפים, חקר נושאים ופתרון מטלות מורכבות.
@@ -769,11 +806,28 @@
                 <div class="workshop">
                     <div class="workshop-header">
                         <div class="workshop-badges">
+                            <div class="workshop-badge">🎙️ תוכן חדשני</div>
+                        </div>
+                        <img src="images/mini/team-mini.jpg" alt="צוות מנחים" class="facilitator-mini">
+                    </div>
+                    <h3 class="workshop-title">סדנה 6: NotebookLM - הפודקאסט החכם</h3>
+                    <p class="workshop-subtitle">🎙️ מכל תוכן לדיון מרתק</p>
+                    <div class="workshop-description">
+                        הכירו את NotebookLM הכלי שיכול להפוך כל מאמר, מסמך או ספר לימוד לפודקאסט מרתק עם דיון בין דוברים וירטואליים. תוכלו אפילו להצטרף לשיחה!
+                    </div>
+                    <div class="workshop-closing">
+                        "שנו כל חומר לימוד לתוכנית רדיו מרתקת!"
+                    </div>
+                </div>
+
+                <div class="workshop">
+                    <div class="workshop-header">
+                        <div class="workshop-badges">
                             <div class="workshop-badge">⚡ פיתוח מתקדם</div>
                         </div>
                         <img src="images/mini/dror-aharoni-mini.jpg" alt="דרור משה אהרוני" class="facilitator-mini">
                     </div>
-                    <h3 class="workshop-title">סדנה 4: פיתוח ללא מתכנתים</h3>
+                    <h3 class="workshop-title">סדנה 7: פיתוח ללא מתכנתים</h3>
                     <p class="workshop-subtitle">⚡ הקסם של שימוש בLLM כמתכנת הפרטי שלכם!</p>
                     <div class="workshop-description">
                         מה אם נגיד לכם שאפשר ליצור אפליקציות, אוטומציות וסימולציות מתקדמות בלי לדעת קוד? בואו לגלות איך יוצרים כלים דיגיטליים מתקדמים.
@@ -786,26 +840,9 @@
                 <div class="workshop">
                     <div class="workshop-header">
                         <div class="workshop-badges">
-                            <div class="workshop-badge">💼 יישום מעשי</div>
-                        </div>
-                        <img src="images/mini/yaaram-mini.jpg" alt="יערה מרציאנו" class="facilitator-mini">
-                    </div>
-                    <h3 class="workshop-title">סדנה 5: מה עושים עם AI בעבודה?</h3>
-                    <p class="workshop-subtitle">💼 סדנת Hands-On למורים ואנשי מטה</p>
-                    <div class="workshop-description">
-                        בהנחיית יערה מרציאנו - Cool Hunter, מרצה ומטמיעה כלי AI בארגונים. הבינה המלאכותית כבר כאן – ועכשיו הזמן להפוך אותה לכלי עבודה יומיומי. נלמד כלים פרקטיים לשדרוג ההוראה, המחקר, החשיבה האסטרטגית והמשימות המקצועיות שלכם.
-                    </div>
-                    <div class="workshop-closing">
-                        "פחות באזז, יותר תכל'ס: שימוש חכם ומדויק ב-AI שישרת אתכם בדיוק איפה שצריך!"
-                    </div>
-                </div>
-
-                <div class="workshop">
-                    <div class="workshop-header">
-                        <div class="workshop-badges">
                             <div class="workshop-badge">💬 דיון קבוצתי</div>
                         </div>
-                        <div class="facilitator-mini">💭</div>
+                        <img src="images/mini/team-mini.jpg" alt="צוות מנחים" class="facilitator-mini">
                     </div>
                     <h3 class="workshop-title">שולחנות עגולים: השלכות על עולם החינוך</h3>
                     <p class="workshop-subtitle">💭 בואו לדון יחד על העתיד</p>
@@ -830,7 +867,7 @@
             <h2 class="section-title">מנחי הסדנאות</h2>
             <div class="facilitators-grid">
                 <div class="facilitator-card">
-                    <img src="images/facilitators/dror-m-aharoni.jpg" alt="דרור משה אהרוני" class="facilitator-placeholder">
+                    <img src="images/facilitators/dror-aharoni.jpg" alt="דרור משה אהרוני" class="facilitator-placeholder">
                     <h3 class="facilitator-name">דרור משה אהרוני</h3>
                     <p class="facilitator-role">מארגן ומנחה הכנס</p>
                 </div>
@@ -842,21 +879,33 @@
                 </div>
                 
                 <div class="facilitator-card">
-                    <div class="facilitator-placeholder">אח</div>
+                    <img src="images/facilitators/eliran-chen.jpg" alt="אלירן חן" class="facilitator-placeholder">
                     <h3 class="facilitator-name">אלירן חן</h3>
                     <p class="facilitator-role">חבר צוות הוראה</p>
                 </div>
                 
                 <div class="facilitator-card">
-                    <img src="images/facilitators/arik-galboa.jpg" alt="אריק גלבוע" class="facilitator-placeholder">
+                    <img src="images/facilitators/arik-galboa.png" alt="אריק גלבוע" class="facilitator-placeholder">
                     <h3 class="facilitator-name">אריק גלבוע</h3>
                     <p class="facilitator-role">חבר צוות הוראה</p>
                 </div>
                 
                 <div class="facilitator-card">
-                    <img src="images/facilitators/yaaram.jpg" alt="יערה מרציאנו" class="facilitator-placeholder">
-                    <h3 class="facilitator-name">יערה מרציאנו</h3>
-                    <p class="facilitator-role">AI integration expert</p>
+                    <img src="images/facilitators/yulia-bronstein.jpg" alt="יוליה ברונשטיין" class="facilitator-placeholder">
+                    <h3 class="facilitator-name">יוליה ברונשטיין</h3>
+                    <p class="facilitator-role">חברת צוות הוראה</p>
+                </div>
+                
+                <div class="facilitator-card">
+                    <img src="images/facilitators/oded-bater.jpg" alt="עודד באטר" class="facilitator-placeholder">
+                    <h3 class="facilitator-name">עודד באטר</h3>
+                    <p class="facilitator-role">חבר צוות הוראה</p>
+                </div>
+                
+                <div class="facilitator-card">
+                    <img src="images/facilitators/shuli-ayal.jpg" alt="שולי אייל" class="facilitator-placeholder">
+                    <h3 class="facilitator-name">שולי אייל</h3>
+                    <p class="facilitator-role">חברת צוות הוראה</p>
                 </div>
             </div>
         </div>
