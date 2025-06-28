@@ -639,6 +639,96 @@
                 margin-top: 10px;
             }
         }
+
+        /* אינדיקטור גלילה */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: bounceUpDown 2s infinite;
+            cursor: pointer;
+            z-index: 100;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-arrow {
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .scroll-arrow::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-left: 3px solid #8b5cf6;
+            border-bottom: 3px solid #8b5cf6;
+            transform: rotate(-45deg);
+            left: 10px;
+            top: 0;
+            animation: arrowPulse 2s infinite;
+        }
+
+        .scroll-text {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            animation: textFade 2s infinite;
+        }
+
+        @keyframes bounceUpDown {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes textFade {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .scroll-indicator:hover {
+            animation-duration: 1s;
+        }
+
+        .scroll-indicator:hover .scroll-arrow::before {
+            border-color: #10b981;
+        }
+
+        .scroll-indicator:hover .scroll-text {
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .scroll-indicator {
+                bottom: 20px;
+            }
+            
+            .scroll-arrow {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .scroll-arrow::before {
+                width: 15px;
+                height: 15px;
+                left: 8px;
+            }
+            
+            .scroll-text {
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -672,6 +762,12 @@
             <button class="location-button" onclick="openNavigation()">📍 מיקום: מש"ר ראשון לציון</button>
             <br>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLScFxXnZPbZYoUI3jC1eNT9V_9sJU9LRdSWxc8BQxFGGWPJ-4g/viewform?usp=header" class="register-btn" target="_blank">🚀 הרשמה לכנס</a>
+        </div>
+
+        <!-- הוספת אינדיקטור גלילה -->
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+            <p class="scroll-text">גללו מטה לפרטים נוספים</p>
         </div>
     </section>
 
@@ -930,6 +1026,40 @@
                 window.open("https://maps.app.goo.gl/CWndbYttWjZK6zvFA", "_blank");
             }
         }
+
+        // הוספת פונקציונליות גלילה חלקה
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            
+            if (scrollIndicator) {
+                scrollIndicator.addEventListener('click', function() {
+                    const speakersSection = document.querySelector('.speakers-section');
+                    if (speakersSection) {
+                        speakersSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            }
+            
+            // הסתרת האינדיקטור כשמגיעים לחלק הבא
+            window.addEventListener('scroll', function() {
+                const scrollIndicator = document.querySelector('.scroll-indicator');
+                const heroSection = document.querySelector('.hero-section');
+                
+                if (scrollIndicator && heroSection) {
+                    const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+                    const scrollPosition = window.pageYOffset + window.innerHeight;
+                    
+                    if (scrollPosition > heroBottom + 100) {
+                        scrollIndicator.style.opacity = '0';
+                    } else {
+                        scrollIndicator.style.opacity = '1';
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
