@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>כנס AI לעובדי מש"ר</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background: #0a0a1a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background:
+                linear-gradient(rgba(10, 10, 26, 0.7), rgba(10, 10, 26, 0.5)),
+                url('images/galaxy-background.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .logo-container {
+            position: static;
+            margin: 0 auto 24px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 180px;
+            height: 180px;
+            z-index: 1;
+            opacity: 1;
+        }
+
+        .logo-visual {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            animation: logoBreath 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo-visual::before {
+            content: '';
+            position: absolute;
+            top: -16px;
+            left: -16px;
+            right: -16px;
+            bottom: -16px;
+            border: 4px solid rgba(139, 92, 246, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 0 60px 20px rgba(139, 92, 246, 0.5);
+            animation: logoRing 4s ease-in-out infinite;
+        }
+
+        .stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .star:nth-child(1) {
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .star:nth-child(2) {
+            width: 2px;
+            height: 2px;
+            background: #10b981;
+            top: 20%;
+            left: 80%;
+            animation-delay: 0.5s;
+        }
+
+        .star:nth-child(3) {
+            width: 4px;
+            height: 4px;
+            background: #8b5cf6;
+            top: 70%;
+            left: 15%;
+            animation-delay: 1s;
+        }
+
+        .star:nth-child(4) {
+            width: 3px;
+            height: 3px;
+            background: #06b6d4;
+            top: 80%;
+            left: 85%;
+            animation-delay: 1.5s;
+        }
+
+        .star:nth-child(5) {
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            top: 40%;
+            left: 70%;
+            animation-delay: 2s;
+        }
+
+        .star:nth-child(6) {
+            width: 3px;
+            height: 3px;
+            background: #10b981;
+            top: 60%;
+            left: 30%;
+            animation-delay: 2.5s;
+        }
+
+        .star:nth-child(7) {
+            width: 4px;
+            height: 4px;
+            background: #8b5cf6;
+            top: 15%;
+            left: 50%;
+            animation-delay: 3s;
+        }
+
+        .star:nth-child(8) {
+            width: 2px;
+            height: 2px;
+            background: #06b6d4;
+            top: 90%;
+            left: 60%;
+            animation-delay: 3.5s;
+        }
+
+        .floating-galaxies {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .galaxy {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+            animation: float 15s infinite linear;
+        }
+
+        .galaxy:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .galaxy:nth-child(2) {
+            top: 40%;
+            left: 90%;
+            animation-delay: 5s;
+        }
+
+        .galaxy:nth-child(3) {
+            top: 80%;
+            left: 20%;
+            animation-delay: 10s;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 900px;
+            padding: 40px 20px;
+        }
+
+        .main-title {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4, #10b981, #14b8a6);
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #e2e8f0;
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        .date-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            margin-bottom: 40px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .date-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.5);
+        }
+
+        .location-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+            margin-bottom: 40px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .location-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.5);
+        }
+
+        .register-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #06b6d4, #10b981);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            text-decoration: none;
+            box-shadow: 0 15px 35px rgba(6, 182, 212, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(6, 182, 212, 0.5);
+        }
+
+        .speakers-section {
+            background: linear-gradient(135deg, #1e1b4b 0%, #581c87 100%);
+            padding: 80px 20px;
+            position: relative;
+        }
+
+        .speakers-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #10b981, #8b5cf6, #06b6d4, transparent);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .speakers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .speaker-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .speaker-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .speaker-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 30px auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .speaker-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .speaker-title {
+            font-size: 1.3rem;
+            color: #10b981;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .speaker-bio {
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 0 20px 30px;
+            font-size: 1.1rem;
+        }
+
+        .schedule-section {
+            background: #0a0a1a;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .schedule-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .schedule-item::before {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            border-radius: 50%;
+        }
+
+        .schedule-time {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: 700;
+            min-width: 140px;
+            text-align: center;
+            margin-left: 20px;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
+            font-size: 1.2rem;
+        }
+
+        .schedule-activity {
+            flex: 1;
+            font-size: 1.3rem;
+            color: #ffffff;
+        }
+
+        .schedule-speaker {
+            color: #10b981;
+            font-weight: 600;
+            margin-top: 5px;
+            font-size: 1.2rem;
+        }
+
+        .workshops-section {
+            background: linear-gradient(135deg, #581c87 0%, #1e1b4b 100%);
+            padding: 80px 20px;
+        }
+
+        .workshops-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .workshops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .workshop {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .workshop::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #8b5cf6, #10b981, #06b6d4);
+        }
+
+        .workshop:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2);
+        }
+
+        .workshop-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .workshop-badges {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .workshop-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .facilitator-mini {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .workshop-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .workshop-subtitle {
+            font-size: 1.15rem;
+            color: #10b981;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .workshop-description {
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .workshop-closing {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-style: italic;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
+            font-size: 1rem;
+        }
+
+        .register-middle {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .facilitators-section {
+            background: linear-gradient(135deg, #1e1b4b 0%, #581c87 100%);
+            padding: 80px 20px;
+            position: relative;
+        }
+
+        .facilitators-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #10b981, #8b5cf6, #06b6d4, transparent);
+        }
+
+        .facilitators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .facilitator-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .facilitator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.2);
+        }
+
+        .facilitator-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .facilitator-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .facilitator-role {
+            font-size: 1rem;
+            color: #10b981;
+        }
+
+        .footer-section {
+            background: #0a0a1a;
+            padding: 60px 20px 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+        }
+
+        @keyframes logoBreath {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes logoRing {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .speaker-placeholder img,
+        .facilitator-placeholder img,
+        .facilitator-mini img,
+        .logo-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        img.speaker-placeholder,
+        img.facilitator-placeholder,
+        img.facilitator-mini,
+        img.logo-visual {
+            object-fit: cover;
+            object-position: center;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            image-rendering: auto;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .workshops-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .schedule-time {
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+
+            .speakers-grid,
+            .facilitators-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workshop-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .facilitator-mini {
+                margin-top: 10px;
+            }
+        }
+
+        /* אינדיקטור גלילה */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: bounceUpDown 2s infinite;
+            cursor: pointer;
+            z-index: 100;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-arrow {
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .scroll-arrow::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-left: 3px solid #8b5cf6;
+            border-bottom: 3px solid #8b5cf6;
+            transform: rotate(-45deg);
+            left: 10px;
+            top: 0;
+            animation: arrowPulse 2s infinite;
+        }
+
+        .scroll-text {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            animation: textFade 2s infinite;
+        }
+
+        @keyframes bounceUpDown {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0px);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        @keyframes arrowPulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes textFade {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .scroll-indicator:hover {
+            animation-duration: 1s;
+        }
+
+        .scroll-indicator:hover .scroll-arrow::before {
+            border-color: #10b981;
+        }
+
+        .scroll-indicator:hover .scroll-text {
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .scroll-indicator {
+                bottom: 20px;
+            }
+
+            .scroll-arrow {
+                width: 30px;
+                height: 30px;
+            }
+
+            .scroll-arrow::before {
+                width: 15px;
+                height: 15px;
+                left: 8px;
+            }
+
+            .scroll-text {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="stars-container">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+        </div>
+
+        <div class="floating-galaxies">
+            <div class="galaxy"></div>
+            <div class="galaxy"></div>
+            <div class="galaxy"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="logo-container">
+                <img src="images/glow-logo.png" alt="לוגו מש״ר" class="logo-visual">
+            </div>
+            <h1 class="main-title">כנס AI בינה מלאכותית</h1>
+            <button class="date-button" disabled style="opacity: 0.7; cursor: not-allowed;">התקיים בתאריך
+                3.7.2025</button>
+            <br>
+            <button class="location-button" onclick="openNavigation()">📍 מיקום: מש"ר ראשון לציון</button>
+            <br>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScBnUcHoixuJztZvxlR7NkaccBYNBkHbG6fj8z1O39SfBUFKQ/viewform?usp=header"
+                class="register-btn" target="_blank">📝 שאלון משוב מהכנס</a>
+        </div>
+
+        <!-- הוספת אינדיקטור גלילה -->
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+            <p class="scroll-text">גללו מטה לפרטים נוספים</p>
+        </div>
+    </section>
+
+    <!-- Speakers Section -->
+    <section class="speakers-section">
+        <div class="container">
+            <h2 class="section-title">המרצים שלנו</h2>
+            <div class="speakers-grid">
+                <div class="speaker-card">
+                    <img src="images/speakers/dror-aharoni.jpg" alt="דרור משה אהרוני" class="speaker-placeholder">
+                    <h3 class="speaker-name">דרור משה אהרוני</h3>
+                    <p class="speaker-title">מומחה טכנולוגיות AI</p>
+                    <p class="speaker-bio">מה טכנולוגיית ה-AI מסוגלת לעשות כיום? הרצאה מרתקת על היכולות הנוכחיות של בינה
+                        מלאכותית ואיך היא משנה את עולמנו.</p>
+                    <div class="speaker-resources"
+                        style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
+                        <a href="presentation.html" class="resource-link"
+                            style="background: linear-gradient(135deg, #8b5cf6, #10b981); color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: 600;">📄
+                            מצגת</a>
+                        <a href="https://youtu.be/8mKznJU0Ohc" target="_blank" class="resource-link"
+                            style="background: linear-gradient(135deg, #06b6d4, #10b981); color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: 600;">🎥
+                            הקלטה</a>
+                    </div>
+                </div>
+
+                <div class="speaker-card">
+                    <img src="images/speakers/roey-tzezana.jpg" alt="ד״ר רועי צזנה" class="speaker-placeholder">
+                    <h3 class="speaker-name">ד"ר רועי צזנה</h3>
+                    <p class="speaker-title">חוקר עתידים</p>
+                    <p class="speaker-bio">מה העתידים הצפויים לנו? מבט מעמיק על הכיוונים שבהם מתפתחת הטכנולוגיה והשפעתה
+                        על החברה והחינוך.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="schedule-section">
+        <div class="container">
+            <h2 class="section-title">מה היה לנו?</h2>
+            <div class="schedule-container">
+                <div class="schedule-item">
+                    <div class="schedule-time">8:15 – 9:00</div>
+                    <div class="schedule-activity">התכנסות ונישנושים ☕</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">9:00 – 10:15</div>
+                    <div class="schedule-activity">
+                        הרצאה - מה טכנולוגיית ה-AI מסוגלת לעשות כיום?
+                        <div class="schedule-speaker">דרור משה אהרוני</div>
+                    </div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">10:15 - 11:15</div>
+                    <div class="schedule-activity">
+                        הרצאה - מה העתידים הצפויים לנו?
+                        <div class="schedule-speaker">ד"ר רועי צזנה</div>
+                    </div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">11:15 - 12:15</div>
+                    <div class="schedule-activity">ארוחת צהריים 🍽️</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">12:15 - 13:45</div>
+                    <div class="schedule-activity">סדנאות פעילות סבב א</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">13:45 - 15:10</div>
+                    <div class="schedule-activity">סדנאות פעילות סבב ב</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-time">15:10 - 15:30</div>
+                    <div class="schedule-activity">דברי סיכום</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workshops Section -->
+    <section class="workshops-section">
+        <div class="workshops-container">
+            <h2 class="section-title">הסדנאות הפעילות</h2>
+
+            <div class="workshops-grid">
+                <div class="workshop">
+                    <div class="workshop-header">
+                        <div class="workshop-badges">
+                            <div class="workshop-badge">🎯 הערכה מתקדמת</div>
+                        </div>
+                        <img src="images/mini/dror-kela-mini.jpg" alt="דרור קלע" class="facilitator-mini">
+                    </div>
+                    <h3 class="workshop-title">סדנה 1: מהשאלה – לפתרון, מהפתרון – למחוון</h3>
+                    <p class="workshop-subtitle">🎯 מפתרון מבחן למחוון בתהליך אחד</p>
+                    <div class="workshop-description">
+                        בואו לגלות איך כלי AI מתקדמים יכולים ללוות אתכם בכל שלבי ההערכה:
+                        מהפקת פתרון בחינה עשיר ומנומק, דרך ניתוח מעמיק של הסעיפים והגרפים, ועד לבניית מחוון בדיקה חכם
+                        שמבוסס על כישורים, מושגים ומיומנויות שנבדקות בכל שאלה.
+                        איך מנסחים פרומפט נכון? איך מוודאים שהפתרון לא חורג ממה שתלמידים אמורים לדעת?
+                        איך מגדירים מחוון בדיקה שמספק משוב מעמיק ומדויק?
+                    </div>
+                    <div class="workshop-closing">
+                        "סדנה פרקטית במיוחד - שמדגימה איך להפוך את AI לשותף פדגוגי אמיתי"
+                    </div>
+                </div>
+
+                <div class="workshop">
+                    <div class="workshop-header">
+                        <div class="workshop-badges">
+                            <div class="workshop-badge">🤖 בדיקה חכמה</div>
+                        </div>
+                        <div class="facilitator-mini">אח</div>
+                    </div>
+                    <h3 class="workshop-title">סדנה 2: בדיקת מטלות עם כלי AI</h3>
+                    <p class="workshop-subtitle">🤖 העוזר החכם שלא נגמרת לו הסבלנות</p>
+                    <div class="workshop-description">
+                        גלו איך כלי AI יכולים לעזור לכם לבדוק מטלות בצורה יעילה ולתת משוב מפורט לתלמידים. התנסות בכלי
+                        בדיקה מתקדמים בשילוב עם פטל!
+                    </div>
+                    <div class="workshop-closing">
+                        "כי למי יש זמן לבדוק 150 מטלות ועדיין לשמור על החיוך?"
+                    </div>
+                </div>
+
+                <div class="workshop">
+                    <div class="workshop-header">
+                        <div class="workshop-badges">
+                            <div class="workshop-badge">🎓 למידה בכיתה</div>
+                        </div>
+                        <img src="images/mini/arik-galboa-mini.jpg" alt="אריק גלבוע" class="facilitator-mini">
+                    </div>
+                    <h3 class="workshop-title">סדנה 3: לשלב AI בכיתה</h3>
+                    <p class="workshop-subtitle">🎓 התלמידים כשותפים בלמידה</p>
+                    <div class="workshop-description">
+                        איך הופכים את התלמידים לשותפים פעילים בעבודה עם כלי AI? בואו לגלות דרכים מעשיות לשלב LLM בלמידה
+                        - יצירת גרפים, חקר נושאים ופתרון מטלות מורכבות.
+                    </div>
+                    <div class="workshop-closing">
+                        "הפכו את התלמידים שלכם לחוקרים עם שותפים דיגיטליים חכמים!"
+                    </div>
+                    <div class="workshop-resources"
+                        style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <a href="https://docs.google.com/presentation/d/19vxRAXSx4XCuy7MAOFLiDwHmJJ5ac8aURGDOwm2O808/edit?usp=drivesdk"
+                            target="_blank" class="resource-link"
+                            style="background: linear-gradient(135deg, #8b5cf6, #10b981); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem; font-weight: 600;">📊
+                            מצגת עם פרומפטים</a>
+                    </div>
+                </div>
+
+                <div class="workshop">
+                    <div class="workshop-header">
+                        <div class="workshop-badges">
+                            <div class="workshop-badge">⚡ פיתוח מתקדם</div>
+                        </div>
+                        <img src="images/mini/dror-aharoni-mini.jpg" alt="דרור משה אהרוני" class="facilitator-mini">
+                    </div>
+                    <h3 class="workshop-title">סדנה 4: פיתוח ללא מתכנתים</h3>
+                    <p class="workshop-subtitle">⚡ הקסם של שימוש בLLM כמתכנת הפרטי שלכם!</p>
+                    <div class="workshop-description">
+                        מה אם נגיד לכם שאפשר ליצור אפליקציות, אוטומציות וסימולציות מתקדמות בלי לדעת קוד? בואו לגלות איך
+                        יוצרים כלים דיגיטליים מתקדמים.
+                    </div>
+                    <div class="workshop-closing">
+                        "כי מי לא חולם על מפתח תוכנה שיכול לעשות עבורו קסמים?"
+                    </div>
+                    <div class="workshop-resources"
+                        style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <a href="https://docs.google.com/spreadsheets/d/1-Zo6YkkSmlaicmcYlcRKE6D3zHmFtR52/edit?usp=sharing&ouid=117890094947965497819&rtpof=true&sd=true"
+                            target="_blank" class="resource-link"
+                            style="background: linear-gradient(135deg, #8b5cf6, #10b981); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem; font-weight: 600;">🛠️
+                            מאגר כלי AI</a>
+                        <a href="https://mashar-my.sharepoint.com/:p:/g/personal/dror-moshe_aharoni_wise_org_il/EfIuUgxfUNBEn1tYxdIvDHYBG0RgyhhNQcLsiJETeRaYJg?e=RzohJr"
+                            target="_blank" class="resource-link"
+                            style="background: linear-gradient(135deg, #06b6d4, #10b981); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem; font-weight: 600;">📊
+                            מצגת סדנה</a>
+                        <a href="https://www.youtube.com/watch?v=e2VJ3jt0xVM" target="_blank" class="resource-link"
+                            style="background: linear-gradient(135deg, #e11d48, #10b981); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem; font-weight: 600;">🎥
+                            הקלטת סדנה</a>
+                        <a href="https://mashar-my.sharepoint.com/:u:/g/personal/dror-moshe_aharoni_wise_org_il/Eb18CYw_ee5Hhk7ix0bvwh8BU84Sw9uzsWHqfZB8f9372w?e=tV2g8Y"
+                            target="_blank" class="resource-link"
+                            style="background: linear-gradient(135deg, #f59e0b, #10b981); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem; font-weight: 600;">🌐
+                            אתר הסדנה</a>
+                    </div>
+                </div>
+
+                <div class="workshop">
+                    <div class="workshop-header">
+                        <div class="workshop-badges">
+                            <div class="workshop-badge">💼 יישום מעשי</div>
+                        </div>
+                        <img src="images/mini/yaaram-mini.jpg" alt="יערה מרציאנו" class="facilitator-mini">
+                    </div>
+                    <h3 class="workshop-title">סדנה 5: מה עושים עם AI בעבודה?</h3>
+                    <p class="workshop-subtitle">💼 סדנת Hands-On למורים ואנשי מטה</p>
+                    <div class="workshop-description">
+                        בהנחיית יערה מרציאנו - Cool Hunter, מרצה ומטמיעה כלי AI בארגונים. הבינה המלאכותית כבר כאן –
+                        ועכשיו הזמן להפוך אותה לכלי עבודה יומיומי. נלמד כלים פרקטיים לשדרוג ההוראה, המחקר, החשיבה
+                        האסטרטגית והמשימות המקצועיות שלכם.
+                    </div>
+                    <div class="workshop-closing">
+                        "פחות באזז, יותר תכל'ס: שימוש חכם ומדויק ב-AI שישרת אתכם בדיוק איפה שצריך!"
+                    </div>
+                    <div class="workshop-resources"
+                        style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <a href="https://docs.google.com/document/d/1m4CpdvGAQd6CMzvQXb1e90wxdOnB1-wQ5r9n-Ns2FkY/edit?usp=sharing"
+                            target="_blank" class="resource-link"
+                            style="background: linear-gradient(135deg, #8b5cf6, #10b981); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem; font-weight: 600;">📝
+                            בנק פרומפטים</a>
+                        <a href="https://drive.google.com/file/d/18_LM9CPNpEOx2_sMl-uXjmeRC40UCjeC/view?usp=sharing"
+                            target="_blank" class="resource-link"
+                            style="background: linear-gradient(135deg, #06b6d4, #10b981); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem; font-weight: 600;">🛠️
+                            מאגר כלים</a>
+                    </div>
+                </div>
+
+                <div class="workshop">
+                    <div class="workshop-header">
+                        <div class="workshop-badges">
+                            <div class="workshop-badge">💬 דיון קבוצתי</div>
+                        </div>
+                        <div class="facilitator-mini">💭</div>
+                    </div>
+                    <h3 class="workshop-title">שולחנות עגולים: השלכות על עולם החינוך</h3>
+                    <p class="workshop-subtitle">💭 בואו לדון יחד על העתיד</p>
+                    <div class="workshop-description">
+                        דיון פתוח על ההשלכות של טכנולוגיית AI על עולם החינוך. מה הזדמנויות? מהם האתגרים? איך נכין את
+                        התלמידים לעתיד?
+                    </div>
+                    <div class="workshop-closing">
+                        "יחד נעצב את עתיד החינוך עם AI!"
+                    </div>
+                </div>
+            </div>
+
+            <div class="register-middle">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScFxXnZPbZYoUI3jC1eNT9V_9sJU9LRdSWxc8BQxFGGWPJ-4g/viewform?usp=header"
+                    class="register-btn" target="_blank">📝 שאלון משוב מהכנס</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facilitators Section -->
+    <section class="facilitators-section">
+        <div class="container">
+            <h2 class="section-title">מנחי הסדנאות</h2>
+            <div class="facilitators-grid">
+                <div class="facilitator-card">
+                    <img src="images/facilitators/dror-m-aharoni.jpg" alt="דרור משה אהרוני"
+                        class="facilitator-placeholder">
+                    <h3 class="facilitator-name">דרור משה אהרוני</h3>
+                    <p class="facilitator-role">מארגן ומנחה הכנס</p>
+                </div>
+
+                <div class="facilitator-card">
+                    <img src="images/facilitators/dror-kela.jpg" alt="דרור קלע" class="facilitator-placeholder">
+                    <h3 class="facilitator-name">דרור קלע</h3>
+                    <p class="facilitator-role">חבר צוות הוראה</p>
+                </div>
+
+                <div class="facilitator-card">
+                    <div class="facilitator-placeholder">אח</div>
+                    <h3 class="facilitator-name">אלירן חן</h3>
+                    <p class="facilitator-role">חבר צוות הוראה</p>
+                </div>
+
+                <div class="facilitator-card">
+                    <img src="images/facilitators/arik-galboa.jpg" alt="אריק גלבוע" class="facilitator-placeholder">
+                    <h3 class="facilitator-name">אריק גלבוע</h3>
+                    <p class="facilitator-role">חבר צוות הוראה</p>
+                </div>
+
+                <div class="facilitator-card">
+                    <img src="images/facilitators/yaaram.jpg" alt="יערה מרציאנו" class="facilitator-placeholder">
+                    <h3 class="facilitator-name">יערה מרציאנו</h3>
+                    <p class="facilitator-role">AI integration expert</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer Section -->
+    <section class="footer-section">
+        <h2 class="footer-title">תודה שהשתתפתם בכנס!</h2>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScFxXnZPbZYoUI3jC1eNT9V_9sJU9LRdSWxc8BQxFGGWPJ-4g/viewform?usp=header"
+            class="register-btn" target="_blank">📝 שאלון משוב מהכנס</a>
+    </section>
+
+    <script>
+        function addToCalendar() {
+            const event = {
+                title: 'כנס AI בינה מלאכותית - מש"ר ראשון לציון',
+                start: '2025-07-03T05:30:00',
+                end: '2025-07-03T12:00:00',
+                description: 'כנס מרתק על בינה מלאכותית בחינוך עם הרצאות וסדנאות פעילות',
+                location: 'מרכז שוורץ רייסמן לחינוך מדעי, ראשון לציון, Tamar Even St 3, Rishon LeZion, Israel'
+            };
+
+            // יצירת קישור Google Calendar
+            const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.start.replace(/[-:]/g, '').replace(/\.\d{3}/, '')}Z/${event.end.replace(/[-:]/g, '').replace(/\.\d{3}/, '')}Z&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}`;
+
+            window.open(googleCalendarUrl, '_blank');
+        }
+
+        function openNavigation() {
+            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                // עבור משתמשי iOS
+                window.location.href = "https://maps.apple.com/?q=Tamar+Even+St+3,+Rishon+LeZion,+Israel";
+            } else if (/Android/i.test(navigator.userAgent)) {
+                // עבור משתמשי אנדרואיד
+                window.location.href = "https://waze.com/ul/hsv8tzcppg";
+            } else {
+                // עבור משתמשי דסקטופ
+                window.open("https://maps.app.goo.gl/CWndbYttWjZK6zvFA", "_blank");
+            }
+        }
+
+        // הוספת פונקציונליות גלילה חלקה
+        document.addEventListener('DOMContentLoaded', function () {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+
+            if (scrollIndicator) {
+                scrollIndicator.addEventListener('click', function () {
+                    const speakersSection = document.querySelector('.speakers-section');
+                    if (speakersSection) {
+                        speakersSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            }
+
+            // הסתרת האינדיקטור כשמגיעים לחלק הבא
+            window.addEventListener('scroll', function () {
+                const scrollIndicator = document.querySelector('.scroll-indicator');
+                const heroSection = document.querySelector('.hero-section');
+
+                if (scrollIndicator && heroSection) {
+                    const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+                    const scrollPosition = window.pageYOffset + window.innerHeight;
+
+                    if (scrollPosition > heroBottom + 100) {
+                        scrollIndicator.style.opacity = '0';
+                    } else {
+                        scrollIndicator.style.opacity = '1';
+                    }
+                }
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>

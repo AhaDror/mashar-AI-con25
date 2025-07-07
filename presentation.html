@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פלאות הבינה המלאכותית - דרור מ.א.</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap');
+
+        .reveal {
+            font-family: 'Assistant', 'Heebo', sans-serif;
+            direction: rtl;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            font-family: 'Assistant', 'Heebo', sans-serif;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .reveal .slides {
+            text-align: right;
+        }
+
+        /* Main background - matching landing page */
+        .reveal .slides>section {
+            background: #0a0a1a;
+            color: #ffffff;
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* גודל אחיד לשקופיות */
+            min-height: 600px;
+            max-height: 700px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: visible;
+        }
+
+        /* וידאו ותמונות - גודל מקסימלי אחיד */
+        .reveal img,
+        .reveal video {
+            max-height: 300px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        /* רשימות - ללא גלילה */
+        .reveal ul {
+            margin: 0;
+            /* Remove default browser margin */
+            padding: 0;
+            list-style-type: none;
+            /* Remove default bullets for custom control */
+        }
+
+        .reveal ul.standard-list {
+            /* For lists that need bullets and indentation */
+            list-style-type: disc;
+            padding-right: 1.5em;
+            /* Standard indentation for bullets */
+        }
+
+        /* Consistent text sizes */
+        .big-text {
+            font-size: 2.5rem !important;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4, #10b981, #14b8a6);
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        .medium-text {
+            font-size: 1.8rem !important;
+            font-weight: 500;
+            line-height: 1.4;
+            /* Ensure consistent line height */
+            /* margin-bottom: 1rem; removed for overall spacing */
+            color: #e2e8f0;
+        }
+
+        .small-text {
+            font-size: 1.3rem !important;
+            line-height: 1.6;
+            color: #e2e8f0;
+            /* margin: 0; removed for overall spacing */
+        }
+
+        /* Apply margin-bottom to paragraphs and list items within common text containers */
+        .reveal p {
+            margin-bottom: 1rem;
+        }
+
+        .reveal li {
+            margin-bottom: 0.75rem;
+            /* Slightly less than p for tighter lists */
+            font-size: 1.3rem;
+            /* Aligned with small-text */
+            color: #e2e8f0;
+        }
+
+        /* Override general paragraph margin for the very last child in a block */
+        .reveal p:last-child,
+        .reveal li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Special slides with gradients matching the landing page */
+        .title-slide {
+            background: linear-gradient(135deg, #1e1b4b 0%, #581c87 100%) !important;
+            text-align: center !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #10b981, #8b5cf6, #06b6d4, transparent);
+        }
+
+        .demo-slide {
+            background: linear-gradient(135deg, #581c87 0%, #1e1b4b 100%) !important;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .myth-slide {
+            background: linear-gradient(135deg, #1e1b4b 0%, #581c87 100%) !important;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .vision-slide {
+            background: linear-gradient(135deg, #581c87 0%, #1e1b4b 100%) !important;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(16, 185, 129, 0.2));
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 1rem 0;
+            border-left: 4px solid #10b981;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Layout for two columns */
+        .two-column-layout {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            margin: 1rem 0;
+        }
+
+        .two-column-layout .column {
+            flex: 1;
+        }
+
+        /* Robot slide styles */
+        .robot-video-container {
+            flex: 2;
+            /* Larger space for video */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            min-height: 350px;
+        }
+
+        .robot-video-list {
+            list-style: none;
+            /* Removed default bullets */
+            padding-right: 0;
+        }
+
+        .robot-video-list li {
+            cursor: pointer;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            /* Tighter spacing for interactive list */
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .robot-video-list li:hover {
+            background-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .robot-video-list li.active-video-link {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            font-weight: 700;
+        }
+
+        #robot-video-player {
+            max-height: 350px;
+            max-width: 100%;
+        }
+
+        .emoji {
+            font-size: 3rem;
+            margin: 0 1rem;
+        }
+
+        .reveal .progress {
+            background: rgba(10, 10, 26, 0.5);
+        }
+
+        .reveal .progress span {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+        }
+
+        .demo-button {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem;
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            border: none;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.5);
+        }
+
+        .chat-bubble {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.1);
+            border-top: 3px solid;
+            border-image: linear-gradient(90deg, #8b5cf6, #10b981, #06b6d4) 1;
+        }
+
+        .chat-bubble:before {
+            content: '💬';
+            position: absolute;
+            right: -10px;
+            top: 15px;
+            font-size: 1.5rem;
+        }
+
+        .reveal a {
+            color: #10b981;
+            text-decoration: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Specific overrides for consistent slide content spacing */
+        .reveal .slides>section>* {
+            margin-bottom: 0.5rem;
+            /* Default margin for direct children of a slide */
+        }
+
+        .reveal .slides>section>*:last-child {
+            margin-bottom: 0;
+            /* No margin for the last direct child */
+        }
+
+        /* Adjustments for responsive design */
+        @media (max-width: 768px) {
+            .big-text {
+                font-size: 2rem !important;
+            }
+
+            .medium-text {
+                font-size: 1.5rem !important;
+            }
+
+            .small-text,
+            .reveal li {
+                font-size: 1.1rem !important;
+            }
+
+            .demo-button {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+
+            .reveal .slides>section {
+                min-height: 500px;
+                max-height: 600px;
+                padding: 1rem;
+            }
+
+            .two-column-layout {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .two-column-layout .column {
+                width: 100%;
+            }
+
+            .robot-video-container {
+                min-height: 250px;
+            }
+
+            #robot-video-player {
+                max-height: 250px;
+            }
+        }
+        
+        /* Header with Home Button */
+        .presentation-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 26, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+        }
+        
+        .presentation-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .presentation-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+        
+        .home-button {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
+        }
+        
+        .home-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        /* Add margin to body for header space */
+        body { margin-top: 80px; }
+    </style>
+</head>
+
+<body>
+    <!-- Header with Home Button -->
+    <div class="presentation-header">
+        <div class="presentation-header-content">
+            <h1>מצגת: פלאות הבינה המלאכותית</h1>
+            <a href="index.html" class="home-button">🏠 בית</a>
+        </div>
+    </div>
+    
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section class="title-slide">
+                <img src="./assets/images/cheder-cat.png" alt="חתול צ'דר על ענף"
+                    style="position: absolute; top: 20px; right: 20px; max-height: 210px; z-index: 10;">
+                <h1 class="big-text">עולם הפלאות של הבינה המלאכותית</h1>
+                <h2 class="medium-text">מבט על היכולות הנוכחיות ב-2025</h2>
+                <div class="small-text" style="margin-top: 2rem;">
+                    <p><strong>דרור משה אהרוני</strong></p>
+                    <p>מורה לפיזיקה, מרכז שוורץ רייסמן</p>
+                    <p>6 שנות חקר וניסיון עם בינה מלאכותית</p>
+                </div>
+                <div class="demo-button">בואו נצא למסע גילוי</div>
+            </section>
+
+            <!-- Agents: Start from the end -->
+            <section class="vision-slide">
+                <h2 class="big-text">נתחיל מהסוף: צבא הקלפים לרשותכם</h2>
+                <h3 class="medium-text">סוכני AI אוטונומיים שכבר כאן</h3>
+                <div class="two-column-layout">
+                    <div class="column small-text">
+                        <p>הדבר הראשון שחשוב להבין: AI הוא כבר לא רק 'צ'אט-בוט'.</p>
+                        <p>המהפכה האמיתית היא <strong>סוכני AI</strong>: מערכות אוטונומיות שיכולות לקבל משימה מורכבת,
+                            לתכנן, לכתוב קוד, לתקן את עצמן ולהוציא לפועל פתרון שלם.</p>
+                        <div class="highlight small-text">
+                            עוד רגע נתניע בדיוק את היכולת הזו - נהפוך רעיון למוצר דיגיטלי עובד.
+                        </div>
+                    </div>
+                    <div class="column" style="display: flex; align-items: center; justify-content: center;">
+                        <img src="./assets/images/cards-agents.png" alt="צבא קלפים של סוכני AI"
+                            style="max-height: 350px; border-radius: 15px;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Immediate Live Demo -->
+            <section class="demo-slide">
+                <h2 class="big-text">איזו משימה תבחרו עבור סוכן ה-AI?</h2>
+                <div
+                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60%;">
+                    <div class="highlight" style="width: 100%; max-width: 600px;">
+                        <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                            <button class="demo-button task-button" data-task="הדמיה של שדה מגנטי ממגנט מוט בתלת מימד"
+                                onclick="selectTask(this)">
+                                <strong>הדמיה של שדה מגנטי ממגנט מוט בתלת מימד</strong>
+                            </button>
+                            <button class="demo-button task-button"
+                                data-task="אתר למידה אינטראקטיבי על ווקטורים קינמטיים" onclick="selectTask(this)">
+                                <strong>אתר למידה אינטראקטיבי על ווקטורים קינמטיים</strong>
+                            </button>
+                            <button class="demo-button task-button"
+                                data-task="הדמיית עומק מדומה (דג במים כפי שנראה לעין)" onclick="selectTask(this)">
+                                <strong>הדמיית עומק מדומה</strong> (דג במים כפי שנראה לעין)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-button" id="continue-button" style="display: none;">המשך לשקופית הבאה</div>
+
+                <aside class="notes">
+                    כאן תקבל הצבעה מהקהל ותמשיך לשקופית הבאה
+                </aside>
+            </section>
+
+            <!-- Creating Website Live -->
+            <section class="demo-slide">
+                <h2 class="big-text">יצירת פתרון דיגיטלי בזמן אמת</h2>
+                <div class="small-text">
+                    <p><strong>שלב ראשון:</strong> יצירת PRD (מסמך דרישות מוצר) מפורט</p>
+                    <div class="chat-bubble">
+                        "כתוב PRD מפורט עבור <span id="selected-task">[הנושא שנבחר]</span> המיועד לתלמידי תיכון.
+                        כלול הדמיות תלת-מימדיות, כלים אינטראקטיביים, הסברים מדרגיים וחידונים לבדיקת הבנה."
+                    </div>
+                    <p><strong>שלב שני:</strong> יישום במקביל בארבעה כלים:</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 1rem 0;">
+                        <a href="https://claude.ai/artifacts" target="_blank" class="demo-button"
+                            style="color: #ffffff; font-weight: 700;">Claude Artifacts</a>
+                        <a href="https://aistudio.google.com/app/apps" target="_blank" class="demo-button"
+                            style="color: #ffffff; font-weight: 700;">Google AI Studio</a>
+                        <a href="https://lovable.dev/" target="_blank" class="demo-button"
+                            style="color: #ffffff; font-weight: 700;">Lovable</a>
+                        <a href="https://www.perplexity.ai/" target="_blank" class="demo-button"
+                            style="color: #ffffff; font-weight: 700;">Perplexity Labs</a>
+                    </div>
+                </div>
+                <div class="highlight medium-text">
+                    הכלים עובדים ברקע - נחזור לתוצאות בסוף המפגש
+                </div>
+
+                <aside class="notes">
+                    כאן תפתח את הכלים ותתחיל את התהליך. תן להם לעבוד ברקע.
+                </aside>
+            </section>
+
+            <!-- === START OF NEW NARRATIVE SECTION === -->
+
+            <!-- Quick Vocabulary -->
+            <section>
+                <h2 class="big-text">מילון מושגים בסיסי</h2>
+                <div class="small-text">
+                    <ul class="standard-list fade-in">
+                        <li><strong>LLM (Large Language Model)</strong> - מודל שפה המבוסס על חיזוי המילה הבאה באופן
+                            מתוחכם. הבסיס לכל מה שנראה.</li>
+                        <li><strong>AI גנרטיבי</strong> - טכנולוגיה המייצרת תוכן חדש: טקסט, תמונות, קוד, מוזיקה.</li>
+                        <li><strong>סוכן AI (Agent)</strong> - מערכת המקבלת מטרה ופועלת באופן אוטונומי להשגתה.</li>
+                        <li><strong>הזיה (Hallucination)</strong> - מצב בו המודל ממציא מידע לא מדויק שנשמע אמין.</li>
+                    </ul>
+                </div>
+                <div class="highlight medium-text">
+                    בזמן שהסוכנים עובדים נחזור להתחלה ונראה איך הגענו עד הלום.
+                </div>
+            </section>
+
+            <!-- Text to Text -->
+            <section class="vision-slide">
+                <h2 class="big-text">שלב א': אל תוך מחילת הארנב של השפה</h2>
+                <h3 class="medium-text">הכל מתחיל מטקסט לטקסט</h3>
+                <div class="two-column-layout">
+                    <div class="column small-text" style="flex: 2;">
+                        <p>בבסיס הכל עומדת היכולת להבין וליצור שפה אנושית. זו הייתה נקודת הפתיחה.</p>
+                        <p>מודלי שפה גדולים (LLMs) למדו את כל הידע האנושי הכתוב, והיכולת הבסיסית שלהם היא לחזות את המילה
+                            הבאה ברצף.</p>
+                        <div class="highlight small-text">
+                            מתוך היכולת הפשוטה לכאורה הזו, צמחו כל היכולות המורכבות שנראה מיד. זו הכניסה שלנו ל"ארץ
+                            הפלאות".
+                        </div>
+                    </div>
+                    <div class="column"
+                        style="display: flex; align-items: center; justify-content: flex-start; flex: 1;">
+                        <img src="./assets/images/rabbit_hole.png" alt="מחילת הארנב של השפה"
+                            style="max-height: 400px; border-radius: 15px;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Image Generation -->
+            <section class="demo-slide">
+                <h2 class="big-text">שלב ב': מבעד למראה - מטקסט לתמונה</h2>
+                <h3 class="medium-text">השלב בו ה-AI למד "לראות" ולדמיין</h3>
+                <div class="two-column-layout">
+                    <div class="column small-text">
+                        <p>הקפיצה הבאה הייתה לחבר את עולם המילים לעולם התמונות. המערכות למדו לקשר בין התיאור "ארנב לבן
+                            עם שעון כיס" לבין הייצוג הוויזואלי שלו.</p>
+                        <p>כעת, כל תיאור טקסטואלי, מורכב ככל שיהיה, יכול להפוך לתמונה מפורטת ומציאותית - מפנטזיה ועד
+                            הדמיה טכנית.</p>
+                        <div class="highlight small-text">
+                            כמו אליסה שמביטה במראה, ה-AI החל ליצור בבואות ויזואליות של העולם המתואר במילים.
+                        </div>
+                    </div>
+                    <div class="column" style="display: flex; align-items: center; justify-content: center;">
+                        <img src="./assets/images/alice-mirror.png" alt="אליסה מבעד למראה"
+                            style="max-height: 350px; border-radius: 15px;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Video Generation (Silent) -->
+            <section class="demo-slide">
+                <h2 class="big-text">שלב ג': הבבואה מתעוררת לחיים</h2>
+                <h3 class="medium-text">מתמונה בודדת לעולם דינמי</h3>
+                <div class="small-text">
+                    <p>לאחר שה-AI למד ליצור תמונות, הוא למד ליצור רצף של תמונות קוהרנטיות - סרטון.</p>
+                </div>
+                <div class="two-column-layout" style="align-items: center; margin-top: 1rem;">
+                    <div class="column" style="flex: 1;">
+                        <div class="highlight small-text" style="text-align: center;">
+                            היכולת להפיק וידאו פתחה דלת להנפשות והדמיות דינמיות.
+                        </div>
+                    </div>
+                    <div class="column" style="flex: 2;">
+                        <video src="./assets/videos/alice-AI.mp4" autoplay loop muted
+                            style="width: 100%; border-radius: 15px;"></video>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Music and Voice Creation - Moved to step 4 -->
+            <section class="demo-slide">
+                <h2 class="big-text">שלב ד': יצירת קול ומוזיקה</h2>
+                <div class="small-text">
+                    <p>במקביל, התפתחה היכולת ליצור אודיו באופן עצמאי - מדיבור ועד לשירים שלמים.</p>
+                    <p><strong>דוגמאות שירים שיצרתי (טקסט, לחן, שירה והפקה - הכל על ידי AI):</strong></p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 1rem 0;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; width: 45%;">
+                            <p class="small-text" style="margin-bottom: 0.5rem;"><strong>"אבא די אתה מצחיק מדי"</strong>
+                            </p>
+                            <audio controls style="width: 100%;">
+                                <source src="./assets/audio/aba_di_ata_matzchik.mp3#t=20" type="audio/mpeg">
+                            </audio>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; width: 45%;">
+                            <p class="small-text" style="margin-bottom: 0.5rem;"><strong>"Axioms of the
+                                    Optimist"</strong></p>
+                            <audio controls style="width: 100%;">
+                                <source src="./assets/audio/axioms_of_optimist.mp3" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    </div>
+                    <div class="highlight small-text">
+                        הפיכת הקול והמוזיקה לכלי יצירה שנגיש לכל אחד, ללא צורך בידע מוזיקלי.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Podcast & Voice Chat - Moved to step 5 -->
+            <section class="demo-slide">
+                <h2 class="big-text">שלב ה': מדיבור לדיאלוג - שיחות קוליות</h2>
+                <h3 class="medium-text">השלב בו ה-AI למד להקשיב, להבין ולהגיב בזמן אמת</h3>
+                <div class="two-column-layout">
+                    <div class="column small-text">
+                        <p>החיבור בין הבנת שפה ליצירת קול מאפשר שיחה טבעית וזורמת.</p>
+                        <div class="highlight small-text">
+                            דוגמה: שיחה עם NotebookLM והאזנה לדיאלוג היסטורי
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <strong>השלב הבא: שיחת וידאו.</strong> המודל לא רק שומע, אלא גם רואה את העולם סביבו ומגיב
+                            בהתאם.
+                        </div>
+                    </div>
+                    <div class="column" style="display: flex; flex-direction: column; justify-content: center;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px;">
+                            <p class="small-text" style="margin-bottom: 1rem; text-align: center;"><strong>סימפליציו
+                                    וסאלביאטי</strong></p>
+                            <audio controls style="width: 100%;">
+                                <source src="./assets/audio/simplitzio.mp3" type="audio/mpeg">
+                            </audio>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                            <a href="https://notebooklm.google.com/notebook/14eb2eaa-57da-42a3-8516-52f8ba2d2e55"
+                                target="_blank" class="demo-button">NotebookLM - ממשק שיחה</a>
+                            <div class="demo-button">הדגמה חיה עם Gemini</div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    השמע את הפודקאסט, עצור אותו, שאל שאלה קולית. לאחר מכן, הדגם את שיחת הוידאו עם Gemini בטלפון.
+                </aside>
+            </section>
+
+            <!-- Video with Sound (VEO3) - Moved to step 6 -->
+            <section class="demo-slide">
+                <h2 class="big-text">שלב ו': העולם מקבל קול - וידאו וסאונד</h2>
+                <h3 class="medium-text">הדור הבא: הבנה עמוקה של העולם הנראה והנשמע</h3>
+                <div class="small-text">
+                    <p>הכלי החדש של גוגל, <strong>VEO 3</strong>, לא רק יוצר וידאו מטקסט, אלא מבין את ההקשר הפיזיקלי
+                        והסמנטי כדי ליצור סאונד תואם.</p>
+                    <p>הוא יכול לדמות איך יישמע רכב על כביש חצץ, או איך תישמע שיחה בחדר מהדהד.</p>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 1rem; margin: 1rem 0; flex-wrap: wrap;">
+                    <iframe width="300" height="200" src="https://www.youtube.com/embed/34Omj__CeKk"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe width="300" height="200" src="https://www.youtube.com/embed/SPF4MGL7K5I"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe width="300" height="200" src="https://www.youtube.com/embed/mCFMn0UkRt0"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </section>
+
+            <!-- Psychology & Understanding -->
+            <section class="myth-slide">
+                <h2 class="big-text" style="margin-bottom: 0.5rem;">שלב ז': להבין את מסיבת התה של הכובען המטורף</h2>
+                <h3 class="medium-text" style="margin-bottom: 0.5rem;">הקפיצה הגדולה: מהבנת נתונים להבנת נפש האדם</h3>
+                <div class="two-column-layout" style="gap: 0.5rem;">
+                    <div class="column small-text">
+                        <p style="margin-bottom: 0.5rem;">זו אולי ההתפתחות המפתיעה והמשמעותית מכולן. AI מראה יכולות
+                            לחזות התנהגות אנושית ולנתח דפוסי אישיות ברמה שמתעלה על מומחים אנושיים.</p>
+                        <p style="margin-bottom: 0.2rem;"><strong>מחקר Digital Twin:</strong> ראיון של שעתיים מספיק
+                            ליצירת "תאום דיגיטלי" שמנבא התנהגות בדיוק של 85% - יותר מבני משפחה.</p>
+                        <p style="margin-bottom: 0;"><strong>מחקר Nature:</strong> מודלי AI מזהים קשרים בין תכונות
+                            אישיות ומפגינים "אמפתיה" ברמות גבוהות מהממוצע האנושי.</p>
+                        <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <a href="https://arxiv.org/pdf/2411.10109" target="_blank" class="demo-button" style="font-size: 0.9rem; padding: 6px 12px;">📄 מחקר Digital Twin</a>
+                            <a href="https://www.nature.com/articles/s44271-025-00205-w" target="_blank" class="demo-button" style="font-size: 0.9rem; padding: 6px 12px;">📊 מחקר Nature</a>
+                        </div>
+                    </div>
+                    <div class="column"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                        <img src="./assets/images/research/nature_personality_research.png" alt="מחקר Nature אישיות"
+                            style="max-height: 150px; border-radius: 10px; cursor: pointer; transition: transform 0.3s ease;"
+                            onclick="this.style.transform = this.style.transform === 'scale(1.5)' ? 'scale(1)' : 'scale(1.5)';">
+                        <img src="./assets/images/research/digital_twin_research.png" alt="מחקר כפיל דיגיטלי"
+                            style="max-height: 150px; border-radius: 10px; cursor: pointer; transition: transform 0.3s ease;"
+                            onclick="this.style.transform = this.style.transform === 'scale(1.5)' ? 'scale(1)' : 'scale(1.5)';">
+                    </div>
+                </div>
+                <div class="highlight medium-text" style="text-align: center; margin-top: 0.5rem; width: 80%;">ה-AI לא
+                    רק מחקה אינטליגנציה, הוא מתחיל להבין את המניעים שלה.</div>
+            </section>
+
+            <!-- Physical World - Robots -->
+            <section class="demo-slide">
+                <h2 class="big-text">שלב ח': היציאה לעולם האמיתי</h2>
+                <h3 class="medium-text">המוח הדיגיטלי מקבל גוף פיזי</h3>
+                <div style="max-width: 80%; margin: 0 auto;">
+                    <p class="small-text" style="margin-bottom: 1rem;">כל היכולות שראינו - ראייה, הבנת שפה, תכנון -
+                        מתחברות יחד כדי לאפשר לרובוטים הומנואידים לפעול בעולם הפיזי בצורה שלא התאפשרה עד כה.</p>
+                </div>
+                <div style="display: flex; gap: 2rem; align-items: flex-start; margin-top: 1rem;">
+                    <div style="flex: 1;">
+                        <p class="small-text" style="margin-bottom: 0.5rem;"><strong>בחרו סרטון לצפייה:</strong></p>
+                        <ul class="robot-video-list small-text">
+                            <li data-src="./assets/videos/clone-full-body.mp4">Clone: רובוט ביו-מכני</li>
+                            <li data-src="./assets/videos/optimus-dancing.mp4">Tesla Optimus: הומנואיד רב-תכליתי</li>
+                            <li data-src="./assets/videos/kungfu-robot.mp4">Unitree H1: זריזות ואתלטיות</li>
+                            <li data-src="./assets/videos/soccer_robots.mp4">כדורגל רובוטים 3v3</li>
+                            <li data-src="./assets/videos/robots_compilation.mp4">Robots-edited</li>
+                        </ul>
+                    </div>
+                    <div class="robot-video-container" style="flex: 2; margin-top: 2.5rem;">
+                        <video id="robot-video-player" controls style="border-radius: 10px; width: 90%;">
+                            <source src="./assets/videos/clone-full-body.mp4" type="video/mp4">
+                            הדפדפן שלך לא תומך בהשמעת וידאו
+                        </video>
+                    </div>
+                </div>
+            </section>
+
+            <!-- === END OF NEW NARRATIVE SECTION === -->
+
+
+            <!-- AI in Israel -->
+            <section class="demo-slide">
+                <h2 class="big-text">ובינתיים בישראל</h2>
+                <div class="small-text">
+                    <p><strong>eSelf + מט"ח:</strong> מורה AI פרטי לתלמידי בישראל</p>
+                    <p><strong>פיילוט:</strong> אפריל 2025 (לפני כחודשיים!)</p>
+                    <div style="display: flex; justify-content: center; gap: 1rem; margin: 1rem 0;">
+                        <iframe width="400" height="225" src="https://www.youtube.com/embed/QHkPYsdBOCU" title="דמו 1"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen style="border-radius: 10px;"></iframe>
+                        <iframe width="400" height="225" src="https://www.youtube.com/embed/_hY1LxC1ZIo?start=19"
+                            title="דמו 2" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen style="border-radius: 10px;"></iframe>
+                    </div>
+                    <p class="small-text" style="text-align: center;"><strong>כתבה ynet:</strong> <a
+                            href="https://www.ynet.co.il/digital/technews/article/b1i00amskee" target="_blank">קישור</a>
+                    </p>
+                </div>
+                <div class="highlight medium-text">
+                    מורה פרטי מבוסס AI לכל תלמיד במדינה - זה כבר לא מדע בדיוני.
+                </div>
+            </section>
+
+            <!-- Back to Results -->
+            <section class="demo-slide">
+                <h2 class="big-text">🔬 חזרה לקסם שקרה ברקע</h2>
+                <div class="medium-text">
+                    <p>זוכרים את סוכני ה-AI שהתחלנו להפעיל?</p>
+                    <div class="highlight medium-text">בואו נראה מה הם בנו עבורנו בזמן ההרצאה</div>
+                </div>
+                <div class="demo-button">🎯 בדיקת התוצאות מהכלים</div>
+                <div class="small-text">
+                    <p>מה שתראו: 60-80% מהתוצר כבר מוכן</p>
+                    <p>הדיוקים והשיפצורים הם השלב הבא, שלוקח זמן נוסף.</p>
+                </div>
+
+                <aside class="notes">
+                    כאן תחזור לכלים ותראה מה נוצר. השווה בין הגישות השונות.
+                </aside>
+            </section>
+
+            <!-- Next Lecture Link -->
+            <section class="vision-slide">
+                <h2 class="big-text">המשך המסע: מה צופן העתיד?</h2>
+                <h3 class="medium-text">הרצאה הבאה: ד"ר רועי צזנה - חוקר עתידים ומומחה AI</h3>
+                <div class="two-column-layout">
+                    <div class="column small-text">
+                        <p><strong>מה העתידים הצפויים לנו?</strong></p>
+                        <p>מבט מעמיק על הכיוונים שבהם מתפתחת הטכנולוגיה והשפעתה על החברה והחינוך.</p>
+                        <div class="highlight small-text">
+                            ד"ר רועי צזנה הוא אחד המומחים המובילים בישראל בתחום חקר העתידים והבינה המלאכותית.
+                        </div>
+                    </div>
+                    <div class="column" style="display: flex; align-items: center; justify-content: center;">
+                        <div
+                            style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; text-align: center;">
+                            <div class="emoji">🔮</div>
+                            <p class="medium-text" style="margin-top: 1rem;"><strong>חקר עתידים</strong></p>
+                            <p class="small-text">הבנת המגמות והכנה לשינויים</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Practical Uses Today -->
+            <section>
+                <h2 class="big-text">🛠️ איך מתחילים?</h2>
+                <div class="small-text">
+                    <p><strong>בסדנאות אחרי הצהריים תתנסו בפועל:</strong></p>
+                    <ul class="standard-list">
+                        <li><strong>[104] סדנה 1:</strong> מהפתרון למחוון - דרור קלע</li>
+                        <li><strong>[105] סדנה 2:</strong> בדיקת מטלות AI - עם אלירן חן</li>
+                        <li><strong>[106] סדנה 3:</strong> שילוב AI בכיתה - אריק גלבוע</li>
+                        <li><strong>[102] סדנה 4:</strong> פיתוח ללא מתכנתים - דרור משה אהרוני</li>
+                        <li><strong>[103] סדנה 5:</strong> AI בעבודה היומיומית - יערה מרציאנו</li>
+                    </ul>
+                </div>
+                <div class="highlight medium-text">
+                    זה הזמן להפוך את כל מה שראיתם למעשה!
+                </div>
+            </section>
+
+
+            <!-- Call to Action -->
+            <section class="title-slide">
+                <h2 class="big-text">השאלה המרכזית: איך נמשיך מכאן?</h2>
+                <div class="medium-text">
+                    <div class="highlight medium-text">
+                        הכלים זמינים ומוכנים לשימוש<br>
+                        ההזדמנות היא ברכישת המיומנויות
+                    </div>
+                    <p><strong>בסדנאות שלאחר ארוחת הצהריים:</strong></p>
+                    <p>רכישת כישורים מעשיים ליישום הטכנולוגיות בעבודה היומיומית</p>
+                </div>
+                <div class="big-text">
+                    תודה רבה על הקשב והעניין
+                </div>
+
+                <aside class="notes">
+                    סיום עם קריאה ברורה לפעולה המכוונת לסדנאות
+                </aside>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+            rtl: true,
+            width: 1200,
+            height: 700,
+            margin: 0.1,
+            minScale: 0.8,
+            maxScale: 1.2,
+        });
+
+        // Task selection functionality
+        window.selectedTask = '[הנושא שנבחר]';
+
+        function selectTask(button) {
+            // Remove active class from all task buttons
+            document.querySelectorAll('.task-button').forEach(btn => {
+                btn.style.background = 'linear-gradient(135deg, #8b5cf6, #10b981)';
+            });
+
+            // Add active class to selected button
+            button.style.background = 'linear-gradient(135deg, #10b981, #8b5cf6)';
+            button.style.transform = 'scale(1.05)';
+
+            // Store the selected task
+            window.selectedTask = button.getAttribute('data-task');
+
+            // Update the task display in the next slide
+            const taskSpan = document.getElementById('selected-task');
+            if (taskSpan) {
+                taskSpan.textContent = window.selectedTask;
+            }
+
+            // Show continue button
+            const continueButton = document.getElementById('continue-button');
+            if (continueButton) {
+                continueButton.style.display = 'inline-block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Robot video player functionality
+            const videoListItems = document.querySelectorAll('.robot-video-list li');
+            const videoPlayer = document.getElementById('robot-video-player');
+
+            if (videoListItems.length > 0 && videoPlayer) {
+                // Set the first item as active by default
+                videoListItems[0].classList.add('active-video-link');
+
+                videoListItems.forEach(item => {
+                    item.addEventListener('click', function () {
+                        // Remove active class from all items
+                        videoListItems.forEach(li => li.classList.remove('active-video-link'));
+
+                        // Add active class to the clicked item
+                        this.classList.add('active-video-link');
+
+                        // Get the video source from data attribute
+                        const videoSrc = this.getAttribute('data-src');
+
+                        // Change video player source and play
+                        videoPlayer.src = videoSrc;
+                        videoPlayer.load();
+                        videoPlayer.play();
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
