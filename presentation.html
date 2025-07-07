@@ -755,7 +755,7 @@
                     </div>
                     <div class="robot-video-container" style="flex: 2; margin-top: 2.5rem;">
                         <iframe id="robot-video-player"
-                            src="https://www.youtube.com/embed/H7dhwFcuUn0?si=Zzr2iv9Qe-EbsqUj"
+                            src="https://www.youtube.com/embed/H7dhwFcuUn0?si=Zzr2iv9Qe-EbsqUj&autoplay=1&mute=1"
                             title="Robot Video Player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowfullscreen style="border-radius: 10px; width: 90%; height: 300px;">
@@ -947,8 +947,18 @@
                         // Get the video source from data attribute
                         const videoSrc = this.getAttribute('data-src');
 
-                        // Change iframe player source
-                        videoPlayer.src = videoSrc;
+                        // Check if it's the OneDrive link
+                        if (videoSrc.includes('sharepoint.com')) {
+                            // Open OneDrive link in new tab
+                            window.open(videoSrc, '_blank');
+                        } else {
+                            // Add autoplay and mute parameters for YouTube videos
+                            const updatedSrc = videoSrc.includes('?') ?
+                                videoSrc + '&autoplay=1&mute=1' :
+                                videoSrc + '?autoplay=1&mute=1';
+                            // Change iframe player source
+                            videoPlayer.src = updatedSrc;
+                        }
                     });
                 });
             }
