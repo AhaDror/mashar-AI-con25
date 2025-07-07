@@ -362,7 +362,7 @@
                 max-height: 250px;
             }
         }
-        
+
         /* Header with Home Button */
         .presentation-header {
             position: fixed;
@@ -375,7 +375,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding: 15px 20px;
         }
-        
+
         .presentation-header-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -383,7 +383,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .presentation-header h1 {
             font-size: 1.5rem;
             font-weight: 700;
@@ -393,7 +393,7 @@
             -webkit-text-fill-color: transparent;
             margin: 0;
         }
-        
+
         .home-button {
             background: linear-gradient(135deg, #8b5cf6, #10b981);
             color: white;
@@ -404,14 +404,16 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
         }
-        
+
         .home-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
         }
-        
+
         /* Add margin to body for header space */
-        body { margin-top: 80px; }
+        body {
+            margin-top: 80px;
+        }
     </style>
 </head>
 
@@ -423,7 +425,7 @@
             <a href="index.html" class="home-button">🏠 בית</a>
         </div>
     </div>
-    
+
     <div class="reveal">
         <div class="slides">
 
@@ -596,8 +598,11 @@
                         </div>
                     </div>
                     <div class="column" style="flex: 2;">
-                        <video src="./assets/videos/alice-AI.mp4" autoplay loop muted
-                            style="width: 100%; border-radius: 15px;"></video>
+                        <iframe width="100%" height="300"
+                            src="https://www.youtube.com/embed/dgHQ_7Au-vg?autoplay=1&mute=1&loop=1&playlist=dgHQ_7Au-vg"
+                            title="Alice AI Video" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen style="border-radius: 15px;"></iframe>
                     </div>
                 </div>
             </section>
@@ -703,8 +708,10 @@
                         <p style="margin-bottom: 0;"><strong>מחקר Nature:</strong> מודלי AI מזהים קשרים בין תכונות
                             אישיות ומפגינים "אמפתיה" ברמות גבוהות מהממוצע האנושי.</p>
                         <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <a href="https://arxiv.org/pdf/2411.10109" target="_blank" class="demo-button" style="font-size: 0.9rem; padding: 6px 12px;">📄 מחקר Digital Twin</a>
-                            <a href="https://www.nature.com/articles/s44271-025-00205-w" target="_blank" class="demo-button" style="font-size: 0.9rem; padding: 6px 12px;">📊 מחקר Nature</a>
+                            <a href="https://arxiv.org/pdf/2411.10109" target="_blank" class="demo-button"
+                                style="font-size: 0.9rem; padding: 6px 12px;">📄 מחקר Digital Twin</a>
+                            <a href="https://www.nature.com/articles/s44271-025-00205-w" target="_blank"
+                                class="demo-button" style="font-size: 0.9rem; padding: 6px 12px;">📊 מחקר Nature</a>
                         </div>
                     </div>
                     <div class="column"
@@ -733,18 +740,26 @@
                     <div style="flex: 1;">
                         <p class="small-text" style="margin-bottom: 0.5rem;"><strong>בחרו סרטון לצפייה:</strong></p>
                         <ul class="robot-video-list small-text">
-                            <li data-src="./assets/videos/clone-full-body.mp4">Clone: רובוט ביו-מכני</li>
-                            <li data-src="./assets/videos/optimus-dancing.mp4">Tesla Optimus: הומנואיד רב-תכליתי</li>
-                            <li data-src="./assets/videos/kungfu-robot.mp4">Unitree H1: זריזות ואתלטיות</li>
-                            <li data-src="./assets/videos/soccer_robots.mp4">כדורגל רובוטים 3v3</li>
-                            <li data-src="./assets/videos/robots_compilation.mp4">Robots-edited</li>
+                            <li data-src="https://www.youtube.com/embed/H7dhwFcuUn0?si=Zzr2iv9Qe-EbsqUj">Clone: רובוט
+                                ביו-מכני</li>
+                            <li data-src="https://www.youtube.com/embed/gOYAfEOeg1Y">Tesla Optimus: הומנואיד רב-תכליתי
+                            </li>
+                            <li data-src="https://www.youtube.com/embed/WKCDP41_4m8?si=Tcq4JMkadamStzH2">Unitree H1:
+                                זריזות ואתלטיות</li>
+                            <li data-src="https://www.youtube.com/embed/bo4d1dH0kZY?si=gkM8FabOt_Yr4dKN">כדורגל רובוטים
+                                3v3</li>
+                            <li
+                                data-src="https://mashar-my.sharepoint.com/:v:/g/personal/dror-moshe_aharoni_wise_org_il/ESdNkNc1AGtEmyBnM67wbtQBOSE6ZAvgfAPgOVMf8QTkAQ?e=EagzjA">
+                                Robots-edited</li>
                         </ul>
                     </div>
                     <div class="robot-video-container" style="flex: 2; margin-top: 2.5rem;">
-                        <video id="robot-video-player" controls style="border-radius: 10px; width: 90%;">
-                            <source src="./assets/videos/clone-full-body.mp4" type="video/mp4">
-                            הדפדפן שלך לא תומך בהשמעת וידאו
-                        </video>
+                        <iframe id="robot-video-player"
+                            src="https://www.youtube.com/embed/H7dhwFcuUn0?si=Zzr2iv9Qe-EbsqUj"
+                            title="Robot Video Player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen style="border-radius: 10px; width: 90%; height: 300px;">
+                        </iframe>
                     </div>
                 </div>
             </section>
@@ -932,10 +947,8 @@
                         // Get the video source from data attribute
                         const videoSrc = this.getAttribute('data-src');
 
-                        // Change video player source and play
+                        // Change iframe player source
                         videoPlayer.src = videoSrc;
-                        videoPlayer.load();
-                        videoPlayer.play();
                     });
                 });
             }
