@@ -376,8 +376,60 @@
 
         .schedule-section {
             background: #0a0a1a;
-            padding: 60px 20px;
+            padding: 40px 20px;
             position: relative;
+        }
+
+        .schedule-accordion {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .schedule-toggle {
+            width: 100%;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .schedule-toggle:hover {
+            background: linear-gradient(135deg, #7c3aed, #059669);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .schedule-toggle-icon {
+            transition: transform 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .schedule-toggle.active .schedule-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .schedule-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0 0 15px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: none;
+        }
+
+        .schedule-content.active {
+            max-height: 1000px;
+            padding: 30px;
         }
 
         .schedule-container {
@@ -1178,6 +1230,26 @@
             .scroll-text {
                 font-size: 0.8rem;
             }
+
+            .schedule-toggle {
+                font-size: 1rem;
+                padding: 15px 20px;
+            }
+
+            .schedule-content.active {
+                padding: 20px;
+            }
+
+            .schedule-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .schedule-time {
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -1262,41 +1334,49 @@
     <!-- Schedule Section -->
     <section class="schedule-section">
         <div class="container">
-            <h2 class="section-title">מה היה לנו?</h2>
-            <div class="schedule-container">
-                <div class="schedule-item">
-                    <div class="schedule-time">8:15 – 9:00</div>
-                    <div class="schedule-activity">התכנסות ונישנושים ☕</div>
-                </div>
-                <div class="schedule-item">
-                    <div class="schedule-time">9:00 – 10:15</div>
-                    <div class="schedule-activity">
-                        הרצאה - מה טכנולוגיית ה-AI מסוגלת לעשות כיום?
-                        <div class="schedule-speaker">דרור משה אהרוני</div>
+            <div class="schedule-accordion">
+                <button class="schedule-toggle" onclick="toggleSchedule()">
+                    <span class="schedule-toggle-text">📅 לוח זמנים הכנס</span>
+                    <span class="schedule-toggle-icon">▼</span>
+                </button>
+                <div class="schedule-content" id="scheduleContent">
+                    <h2 class="section-title">מה היה לנו?</h2>
+                    <div class="schedule-container">
+                        <div class="schedule-item">
+                            <div class="schedule-time">8:15 – 9:00</div>
+                            <div class="schedule-activity">התכנסות ונישנושים ☕</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="schedule-time">9:00 – 10:15</div>
+                            <div class="schedule-activity">
+                                הרצאה - מה טכנולוגיית ה-AI מסוגלת לעשות כיום?
+                                <div class="schedule-speaker">דרור משה אהרוני</div>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="schedule-time">10:15 - 11:15</div>
+                            <div class="schedule-activity">
+                                הרצאה - מה העתידים הצפויים לנו?
+                                <div class="schedule-speaker">ד"ר רועי צזנה</div>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="schedule-time">11:15 - 12:15</div>
+                            <div class="schedule-activity">ארוחת צהריים 🍽️</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="schedule-time">12:15 - 13:45</div>
+                            <div class="schedule-activity">סדנאות פעילות סבב א</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="schedule-time">13:45 - 15:10</div>
+                            <div class="schedule-activity">סדנאות פעילות סבב ב</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="schedule-time">15:10 - 15:30</div>
+                            <div class="schedule-activity">דברי סיכום</div>
+                        </div>
                     </div>
-                </div>
-                <div class="schedule-item">
-                    <div class="schedule-time">10:15 - 11:15</div>
-                    <div class="schedule-activity">
-                        הרצאה - מה העתידים הצפויים לנו?
-                        <div class="schedule-speaker">ד"ר רועי צזנה</div>
-                    </div>
-                </div>
-                <div class="schedule-item">
-                    <div class="schedule-time">11:15 - 12:15</div>
-                    <div class="schedule-activity">ארוחת צהריים 🍽️</div>
-                </div>
-                <div class="schedule-item">
-                    <div class="schedule-time">12:15 - 13:45</div>
-                    <div class="schedule-activity">סדנאות פעילות סבב א</div>
-                </div>
-                <div class="schedule-item">
-                    <div class="schedule-time">13:45 - 15:10</div>
-                    <div class="schedule-activity">סדנאות פעילות סבב ב</div>
-                </div>
-                <div class="schedule-item">
-                    <div class="schedule-time">15:10 - 15:30</div>
-                    <div class="schedule-activity">דברי סיכום</div>
                 </div>
             </div>
         </div>
@@ -1326,6 +1406,12 @@
                     </div>
                     <div class="workshop-closing">
                         "סדנה פרקטית במיוחד - שמדגימה איך להפוך את AI לשותף פדגוגי אמיתי"
+                    </div>
+                    <div class="workshop-resources"
+                        style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <a href="prompt_workshop1.html" target="_blank" class="resource-link"
+                            style="background: linear-gradient(135deg, #8b5cf6, #10b981); color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem; font-weight: 600;">📝
+                            פרומפט לסדנה</a>
                     </div>
                 </div>
 
@@ -1567,6 +1653,19 @@
             const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.start.replace(/[-:]/g, '').replace(/\.\d{3}/, '')}Z/${event.end.replace(/[-:]/g, '').replace(/\.\d{3}/, '')}Z&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}`;
 
             window.open(googleCalendarUrl, '_blank');
+        }
+
+        function toggleSchedule() {
+            const content = document.getElementById('scheduleContent');
+            const toggle = document.querySelector('.schedule-toggle');
+
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                toggle.classList.remove('active');
+            } else {
+                content.classList.add('active');
+                toggle.classList.add('active');
+            }
         }
 
         function openNavigation() {
