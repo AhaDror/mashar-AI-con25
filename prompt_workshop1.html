@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרומפט לסדנה 1 - כנס AI לעובדי מש"ר</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px 12px 32px 12px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .header p {
+            color: #a1a1aa;
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 18px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+
+        .step-block {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            margin-bottom: 32px;
+            padding: 28px 20px 22px 20px;
+            box-shadow: 0 2px 16px 0 rgba(16, 185, 129, 0.07);
+            position: relative;
+        }
+
+        .step-title {
+            color: #10b981;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .step-desc {
+            color: #fff;
+            font-size: 1.08rem;
+            margin-bottom: 18px;
+        }
+
+        .prompt-block {
+            background: #181f2b;
+            border-radius: 12px;
+            padding: 18px 16px 18px 60px;
+            margin-bottom: 10px;
+            position: relative;
+            font-size: 1.08rem;
+            color: #fff;
+            white-space: pre-line;
+        }
+
+        .copy-btn {
+            position: absolute;
+            left: 18px;
+            top: 18px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+            padding: 7px 18px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-btn.copied {
+            background: #059669;
+        }
+
+        .instruction-block {
+            background: #1a2a3a;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 18px 0;
+            border-left: 4px solid #10b981;
+        }
+
+        .instruction-block h4 {
+            color: #10b981;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .instruction-block ol {
+            color: #fff;
+            margin-right: 20px;
+        }
+
+        .instruction-block li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+
+        .ai-studio-link {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin: 8px 0;
+        }
+
+        .warning-block {
+            background: #2a1a1a;
+            border: 1px solid #ff6b6b;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 18px 0;
+            color: #ffb3b3;
+        }
+
+        .warning-block h4 {
+            color: #ff6b6b;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 8px;
+            }
+
+            .step-block {
+                padding: 14px 6px 14px 6px;
+            }
+
+            .prompt-block {
+                padding: 12px 10px 12px 50px;
+                font-size: 1rem;
+            }
+
+            .step-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>פרומפט לסדנה 1</h1>
+            <p>מהשאלה – לפתרון, מהפתרון – למחוון</p>
+            <a href="index.html" class="back-btn">← חזרה לאתר הכנס</a>
+        </div>
+
+        <!-- שלב 0 - הוראות שימוש -->
+        <div class="step-block">
+            <div class="step-title">שלב 0: הכנת הכלי</div>
+            <div class="step-desc">לפני תחילת העבודה, יש להכין את כלי ה-AI לעבודה:</div>
+            <div class="instruction-block">
+                <h4>הוראות שימוש ב-Google AI Studio:</h4>
+                <ol>
+                    <li>פתחו את הכלי: <a href="https://aistudio.google.com/app/prompts/new_chat" target="_blank"
+                            class="ai-studio-link">Google AI Studio</a></li>
+                    <li>התחברו עם חשבון Google שלכם</li>
+                    <li>בממשק החדש, תראו כפתור "+" - השתמשו בו להעלאת תמונה של השאלה</li>
+                    <li>העלו צילום מסך של השאלה (כולל טקסט, גרפים ואיורים)</li>
+                    <li>לאחר העלאת התמונה, הדביקו את טקסט הפרומפט מהשלבים הבאים</li>
+                    <li>שלחו את ההודעה וחכו לתגובת המודל</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- שלב 1 -->
+        <div class="step-block">
+            <div class="step-title">שלב 1: ניתוח השאלה</div>
+            <div class="step-desc">בשלב זה תבצעו ניתוח ראשוני של מרכיבי הבעיה. <strong>שלב זה דורש כמה איטרציות ובדיקה
+                    קפדנית של הפלט לפני אישור והמשך לשלב הבא.</strong></div>
+            <div class="step-desc">לאחר העלאת השאלה ל-Google AI Studio, השתמשו בפרומפט הבא:</div>
+            <div class="prompt-block" id="prompt1">אתה תלמיד כתה י"א לפיזיקה. הנה בעיית פיזיקה. המשימה הראשונה שלך היא
+                לנתח אותה.
+                1. זהה את כל המשתנים הנתונים עם היחידות שלהם.
+                2. הגדר את מערכת הצירים והתנאים ההתחלתיים.
+                3. רשום את השאלות הנשאלות בכל סעיף.
+                4. אם השאלה כוללת תרשים עקבות, בקש ממני את מספר הנקודות ומיקום של חלק מהן.
+                5. אם יש גרף, כתוב תיאור של הגרף: מגמות ונתונים.
+
+                הצג זאת כסיכום לאימות. אל תפתור שום דבר עדיין.
+            </div>
+            <button class="copy-btn" onclick="copyPrompt('prompt1', this)">📋 העתק פרומפט</button>
+
+            <div class="warning-block">
+                <h4>⚠️ חשוב לבדוק:</h4>
+                <p>בדקו את הניתוח של המודל בקפדנות. ייתכן שהמודל יטעה בזיהוי משתנים, בקריאת גרפים, תרשים עקבות או בהבנת
+                    הנתונים. אשרו את הניתוח רק לאחר שוידאתם שהוא מדויק ומלא. יש לבדוק במיוחד: השטח מתחת לגרף - תאור
+                    הגרף, מספר הנקודות ונקודות עיקריות בתרשים עקבות, דברים נוספים שלא מראה לבד או שוגה.</p>
+            </div>
+        </div>
+
+        <!-- שלב 2 -->
+        <div class="step-block">
+            <div class="step-title">שלב 2: פתרון מלא ומנומק</div>
+            <div class="step-desc">לאחר קבלת ניתוח מדויק ומאושר, השתמשו בפרומפט לפתרון מלא לפי הספרים של עדי רוזן
+                "מכניקה
+                ניוטונית".</div>
+            <div class="prompt-block" id="prompt2">אני מאשר/ת. בהתבסס על הניתוח הקודם שלנו, פתור את הבעיה לפי הספרים של
+                עדי רוזן "מכניקה ניוטונית". הסבר את ההיגיון שלך והצג את החישובים שלך שלב אחר שלב.</div>
+            <button class="copy-btn" onclick="copyPrompt('prompt2', this)">📋 העתק פרומפט</button>
+        </div>
+
+        <!-- שלב 3 -->
+        <div class="step-block">
+            <div class="step-title">שלב 3: יצירת תרשים SVG</div>
+            <div class="prompt-block" id="prompt3">צור תרשים SVG הממחיש את המצב ההתחלתי של הבעיה כפי שתואר בטקסט ובניתוח
+                שלנו. ה-SVG צריך להיות עם הערות ברורות וקל לקריאה. סמן צירים בירוק, כוחות עם חיצים אדומים ותנועה בכחול.
+                המנע מכיסוי של כוחות ע"י צירים.</div>
+            <button class="copy-btn" onclick="copyPrompt('prompt3', this)">📋 העתק פרומפט</button>
+        </div>
+
+        <!-- שלב 4 -->
+        <div class="step-block">
+            <div class="step-title">שלב 4: הערכת איכות השאלה</div>
+            <div class="step-desc">הכפתור הבא מעתיק את הפרומפט יחד עם ההנחיות להערכת איכות השאלה.</div>
+            <div class="prompt-block" id="prompt4">הערך את איכות שאלת הפיזיקה המקורית. השתמש בכללי האצבע המצורפים.
+                נתח היבטים כמו בהירות, מספר הדמויות, הזרימה בין הסעיפים ואיכות האיור.
+
+                כללי אצבע:
+                - שני סעיפים ראשונים קלים – סעיפים שנפתרו בכיתה
+                - בכתיבת שאלה: מגישים 5-6 סעיפים , בסוף יש 4-5 סעיפים
+                - 1-2 סעיפים אחרונים: הבנה או אוריינות (לא חישובי. משנים את # איך משתנה *)
+                - איור ברור (הנחיות אלון ודרור). לא לחסוך באיורים (גם אם זה אומר משהשאלה תתפרס על שני עמודים). המלצה: על
+                האיור להכניס גם את הנתונים של השאלה.
+                - להשתדל ששאלה לא תתפרס על 2 עמודים.
+                - להמעיט במספר הדמויות בשאלה (להוריד עומס קוגניטיבי)
+                כלל אצבע: "עד 2 דמויות בשאלה".
+                - אם יש סיפור\בדיחה – קצר (2-3 משפטים)
+                - "זרימת רעיונות" – 'קשר בין סעיפים'
+                דוגמא לא טובה: סעיף א שואל על נקודה A, סעיף ג שואל על נקודה B אבל דורש את החישובים שבוצעו על נקודה A.
+                דוגמא טובה: עגלה על מסילה. סעיף א חישוב מהירות בנקודה B (שימור אנרגיה), סעיף ב\ג חישוב מהירות בנקודה C
+                שנמצאת באותו גובה של נקודה B
+                - לא לחזור על אותו סעיף פעמיים – כלומר על אותו 'ביצוע'
+                נוטה לקרות כאשר השאלה מאולצת בגלל הסיפור. לא להיות עבד של הסיפור.
+                - שימו לב שאם התרחיש קשה אז רמת הקושי של השאלה יהיה 'קשה' לא משנה מה הסעיפים.
+                - במקרה של סעיף שמנוסח לא טוב:
+                ענו על השאלה: מה מטרת הסעיף? מה ברצונכם לבדוק שהתלמידים יודעים לעשות?
+                אם לא יודעים לענות = למחוק תא הסעיף
+                אם יש מטרה = לבקש את הדבר שאותו התלמידים צריכים להציג.
+                - אם זה הופך את הסעיף לקל מדי = החליפו מטרה\שנו את הסעיף לגמרי.
+                - הציווי של הסעיף צריך להתאים למטרת הסעיף
+                שאלה שצריך בה חשבון תתחיל במילה "חשבו"
+                שאלה שאני רוצה לרמוז שניתן לפתור ללא חישוב – תסתיים במילה "נמקו"
+                להימנע מ"הסבירו ללא חישוב"</div>
+            <button class="copy-btn" onclick="copyPrompt('prompt4', this)">📋 העתק פרומפט</button>
+        </div>
+
+        <!-- שלב 5 -->
+        <div class="step-block">
+            <div class="step-title">שלב 5: כתיבת מחוון</div>
+            <div class="prompt-block" id="prompt5">כמורה תיכון מישראל שעובד במשרד החינוך כתוב מחוון לשאלה, כולל הערכת
+                זמן לביצוע השאלה ע"י תלמידים וזמן בדיקה ע"י מורה.
+                ציין תשובות עם g=10 ובסוגרים עם g=9.8.
+                אם יש מספר דרכים לפתרון ציין את כולן</div>
+            <button class="copy-btn" onclick="copyPrompt('prompt5', this)">📋 העתק פרומפט</button>
+        </div>
+    </div>
+    <script>
+        function copyPrompt(id, btn) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(function () {
+                btn.textContent = '✅ הועתק!';
+                btn.classList.add('copied');
+                setTimeout(function () {
+                    btn.textContent = '📋 העתק פרומפט';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>
