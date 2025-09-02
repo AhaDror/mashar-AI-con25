@@ -1,0 +1,1044 @@
+
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8"/>
+<title>סימולציית ספקטרום בליעה ופליטה</title>
+<style>body {
+      font-family: sans-serif;
+      direction: rtl;
+      text-align: center;
+      background-color: #e6f0ff;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d6/Hydrogen_atom.svg');
+      background-repeat: no-repeat;
+      background-position: top left;
+      background-size: 150px auto;
+      padding: 20px;}
+select, button, input {
+      margin: 10px;
+      padding: 8px;
+      font-size: 16px;}
+.spectrum {
+      position: relative;
+      height: 100px;
+      margin: 20px auto;
+      width: 1100px;
+      border: 1px solid #333;}
+.spectrum.absorption {
+      background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);}
+.spectrum.emission {
+      background: #000;}
+.line {
+      position: absolute;
+      top: 0;
+      bottom: 20px;
+      width: 2px;}
+.line.absorption {
+      background: black;}
+.line.emission {
+      background: white;}
+.label {
+      position: absolute;
+      bottom: 0;
+      font-size: 12px;
+      color: white;}
+.gas-label {
+      font-weight: bold;
+      margin-top: 10px;}
+.edge-label {
+  position: absolute;
+  bottom: -20px;
+  font-size: 14px;
+  color: white;}
+.edge-label.left {
+  left: 0;}
+.edge-label.right {
+  right: 0;}
+.spectrum-wrapper {
+  position: relative;}
+.color-band {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+    background-repeat: no-repeat;
+    background-size: contain;
+    z-index: 0;
+    transition: all 0.3s ease;
+}
+.color-band {
+    display: none !important;
+}
+.color-band-svg {
+    transition: all 0.3s ease;
+}
+
+.color-band-stretchable {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    transform-origin: left center;
+    z-index: 0;
+    transition: transform 0.3s ease;
+}
+
+/* Enhanced visuals for spectrum lines and layout */
+.spectrum-container {
+    border: 1px solid #aaa;
+    margin-bottom: 25px;
+    background-color: #000;
+    position: relative;
+    padding-top: 10px;
+}
+.emission-line {
+    background-color: rgba(0, 255, 0, 0.9);
+    width: 2px;
+    border-radius: 2px;
+    z-index: 1;
+}
+.absorption-line {
+    background-color: rgba(255, 0, 0, 0.9);
+    width: 2px;
+    border-radius: 2px;
+    z-index: 1;
+}
+.color-band-stretchable {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 0;
+    transform-origin: left center;
+    transition: transform 0.3s ease;
+}
+.spectrum-label {
+    position: absolute;
+    bottom: 0;
+    font-size: 13px;
+    color: white;
+}
+.zoom-button, .quiz-button {
+    background-color: #333;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+}
+.zoom-button:hover, .quiz-button:hover {
+    background-color: #555;
+}
+.question-box {
+    background-color: #1e1e1e;
+    color: #eee;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+input[type="number"] {
+    padding: 6px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #888;
+    background-color: #fafafa;
+}
+</style>
+</head>
+<body>
+<h1>סימולציה: ספקטרום פליטה ובליעה של גזים</h1>
+<div>
+<select id="gasSelect" onchange="">
+<option value="h">מימן</option>
+<option value="he">הליום</option>
+<option value="ne">ניאון</option>
+<option value="o">חמצן</option>
+<option value="n">חנקן</option>
+<option value="ar">ארגון</option>
+<option value="kr">קריפטון</option>
+<option value="xe">קסנון</option>
+<option value="ch4">מתאן</option>
+<option value="co2">פחמן דו-חמצני</option>
+</select><div id="gasExplanation" style="margin-top: 8px; font-size: 1em; color: black; background-color: #f2f2f2; padding: 5px; border-radius: 6px; max-width: 480px;"></div>
+<select id="modeSelect">
+<option value="absorption">מצב תצוגה: בליעה</option>
+<option value="emission">מצב תצוגה: פליטה</option>
+</select>
+<button onclick="applySelection()">החל</button>
+</div>
+<label>טווח ספקטרום:
+<select id="spectrumRange" onchange="applySelection()">
+<option value="visible">אור נראה (400–700 נ״מ)</option>
+<option value="uv">אולטרה סגול (200–400 נ״מ)</option>
+<option value="ir">אינפרה אדום (700–1100 נ״מ)</option>
+</select>
+</label>
+<div class="gas-label" id="primaryLabel"></div>
+<div id="freqDisplay" style="margin-top: 0px; font-size: 18px; font-weight: bold;"></div>
+<script>
+    const c = 299792458; // מהירות האור במטר/שנייה
+
+    const emissionLines = {
+      h: [656.3, 486.1, 434.0, 410.2, 397.0],
+      he: [447.1, 468.6, 471.3, 492.2, 501.6, 504.8, 587.6, 667.8],
+      ne: [540.1, 585.2, 640.2, 659.9, 703.2],
+      o: [615.3, 630.0, 690.8],
+      n: [500.5, 567.6, 594.5],
+      ar: [696.5, 706.7, 738.4],
+      kr: [760.2, 768.5, 794.8],
+      xe: [823.2, 828.0, 881.9],
+      ch4: [430.4, 480.2, 620.7],
+      co2: [426.7, 467.8, 636.1],
+      unknown: [486.1, 434.0, 656.3]
+    };
+
+    const absorptionLines = {
+      h: [656.3, 486.1, 434.0, 410.2],
+      he: [447.1, 468.6, 501.6, 587.6],
+      ne: [540.1, 585.2, 640.2],
+      o: [615.3, 630.0, 690.8],
+      n: [500.5, 567.6],
+      ar: [706.7, 738.4],
+      kr: [760.2, 768.5],
+      xe: [823.2, 881.9],
+      ch4: [430.4, 480.2, 620.7],
+      co2: [426.7, 467.8, 636.1],
+      unknown: [486.1, 434.0, 656.3]
+    };
+
+    function applySelection() {
+      const gas = document.getElementById('gasSelect').value;
+      const mode = document.getElementById("modeSelect").value;
+      renderLines('spectrumPrimary', gas, mode, 'primaryLabel', 1, 550);
+    }
+
+    function activateTest() {
+      document.getElementById('gasSelect').value = 'unknown';
+      applySelection();
+    }
+
+    function addComparison() {
+      const gas = document.getElementById("compareGasSelect").value;
+      if (gas) {
+        const mode = document.getElementById("compareModeSelect").value;
+        const id = 'spectrum_' + gas + '_' + Date.now();
+        const label = document.createElement('div');
+        label.className = 'gas-label';
+        label.innerText = "גז נבחר: " + gas;
+        const spectrum = document.createElement('div');
+        spectrum.className = 'spectrum ' + mode;
+        spectrum.id = id;
+        const wrapper = document.createElement('div');
+        const removeBtn = document.createElement("button");
+        removeBtn.innerText = "הסר סרגל";
+        removeBtn.onclick = () => wrapper.remove();
+        wrapper.appendChild(label);
+        const centerLabel = document.createElement("label");
+        centerLabel.innerHTML = 'מרכז זום: <select onchange="updateSingleComparison(\'' + id + '\', this.value)">' +
+        '<option value="500">500</option><option value="600">600</option><option value="700">700</option></select>';
+        const zoomLabel = document.createElement("label");
+        zoomLabel.innerHTML = 'זום: <input type="range" min="1" max="5" step="0.5" value="1" onchange="updateZoomForComparison(\'' + id + '\', this.value)"> ';
+        wrapper.appendChild(centerLabel);
+        wrapper.appendChild(zoomLabel);
+        wrapper.appendChild(removeBtn);
+        spectrum.setAttribute("data-center", "600");
+        wrapper.appendChild(spectrum);
+        const parent = document.getElementById("spectrumPrimary").parentNode;
+        parent.appendChild(wrapper);
+        renderLines(id, gas, mode, null, 1, 600);
+      } else {
+        alert("שם גז לא מוכר.");
+      }
+    }
+
+    function mapGasName(name) {
+      const map = {
+        'מימן': 'h', 'הליום': 'he', 'ניאון': 'ne', 'חמצן': 'o', 'חנקן': 'n',
+        'ארגון': 'ar', 'קריפטון': 'kr', 'קסנון': 'xe', 'מתאן': 'ch4',
+        'פחמן דו-חמצני': 'co2', 'גז אנונימי': 'unknown'
+      };
+      return map[name] || null;
+    }
+
+    function renderLines(containerId, gas, mode, labelId = null, customZoom = null) {
+      const container = document.getElementById(containerId);
+      container.className = 'spectrum ' + mode;
+      container.innerHTML = '';
+      if (labelId) {
+        document.getElementById(labelId).innerText = "גז נבחר: " + gas;
+      }
+
+      const zoom = customZoom !== null ? customZoom : parseFloat(document.getElementById("zoomSlider").value);
+      const containerElem = document.getElementById(containerId);
+      if (customCenter !== null) containerElem.setAttribute("data-center", customCenter);
+      const center = parseInt(document.getElementById("zoomCenter").value);
+      
+      let minWave, maxWave;
+      const range = document.getElementById("spectrumRange")?.value || "visible";
+      if (range === "visible") {
+        minWave = 400;
+        maxWave = 700;
+      } else if (range === "uv") {
+        minWave = 200;
+        maxWave = 400;
+      } else if (range === "ir") {
+        minWave = 700;
+        maxWave = 1100;
+      }
+
+      const lines = mode === 'absorption' ? absorptionLines : emissionLines;
+      const className = 'line ' + mode;
+      const labelClass = 'label';
+
+      lines[gas].forEach(wavelength => {
+        if (wavelength >= 100 && wavelength <= 1100) {
+          const left = ((wavelength - minWave) / (maxWave - minWave)) * 100;
+          if (left >= 0 && left <= 100) {
+            const line = document.createElement('div');
+            line.className = className;
+            line.style.left = left + '%';
+            line.onclick = () => {
+              const freq = c / (wavelength * 1e-9);
+              document.getElementById("freqDisplay").innerText = "תדירות: " + formatUnits(freq);
+            };
+            container.appendChild(line);
+
+            const label = document.createElement('div');
+            label.className = labelClass;
+            label.style.left = `calc(${left}% - 15px)`;
+            label.innerText = wavelength.toFixed(1);
+            container.appendChild(label);
+          }
+        }
+      });
+    }
+
+    function formatUnits(freq) {
+      if (freq >= 1e12) return (freq / 1e12).toFixed(2) + ' טרה הרץ';
+      if (freq >= 1e9) return (freq / 1e9).toFixed(2) + ' גיגה הרץ';
+      if (freq >= 1e6) return (freq / 1e6).toFixed(2) + ' מגה הרץ';
+      return freq.toFixed(2) + ' הרץ';
+    }
+
+    window.onload = applySelection;
+  
+    function updateAllComparisons() {
+      const zoom = parseFloat(document.getElementById("compareZoomSlider").value);
+      const mode = document.getElementById("compareModeSelect").value;
+      const allSpectra = document.querySelectorAll("#comparisonContainer .spectrum");
+      allSpectra.forEach(spectrum => {
+        const gasId = spectrum.id.split("_")[1]; const center = parseInt(spectrum.getAttribute("data-center") || 600);
+        renderLines(spectrum.id, gasId, mode, null, zoom, center);
+      });
+    }
+
+    function updateSingleComparison(id, center) {
+      const zoom = parseFloat(document.getElementById("compareZoomSlider").value);
+      const mode = document.getElementById("compareModeSelect").value;
+      const gasId = id.split("_")[1];
+      renderLines(id, gasId, mode, null, zoom, parseInt(center));
+    }
+
+    function renderLines(containerId, gas, mode, labelId = null, customZoom = null, customCenter = null) {
+      const container = document.getElementById(containerId);
+      container.className = 'spectrum ' + mode;
+      container.innerHTML = '';
+      if (labelId) {
+        document.getElementById(labelId).innerText = "גז נבחר: " + gas;
+      }
+
+      const zoom = customZoom !== null ? customZoom : parseFloat(document.getElementById("zoomSlider").value);
+      const containerElem = document.getElementById(containerId);
+      if (customCenter !== null) containerElem.setAttribute("data-center", customCenter);
+      const center = customCenter !== null ? customCenter : parseInt(document.getElementById("zoomCenter").value);
+      
+      let minWave, maxWave;
+      const range = document.getElementById("spectrumRange")?.value || "visible";
+      if (range === "visible") {
+        minWave = 400;
+        maxWave = 700;
+      } else if (range === "uv") {
+        minWave = 200;
+        maxWave = 400;
+      } else if (range === "ir") {
+        minWave = 700;
+        maxWave = 1100;
+      }
+
+      const lines = mode === 'absorption' ? absorptionLines : emissionLines;
+      const className = 'line ' + mode;
+      const labelClass = 'label';
+
+      lines[gas].forEach(wavelength => {
+        if (wavelength >= 100 && wavelength <= 1100) {
+          const left = ((wavelength - minWave) / (maxWave - minWave)) * 100;
+          if (left >= 0 && left <= 100) {
+            const line = document.createElement('div');
+            line.className = className;
+            line.style.left = left + '%';
+            line.onclick = () => {
+              const freq = c / (wavelength * 1e-9);
+              document.getElementById("freqDisplay").innerText = "תדירות: " + formatUnits(freq);
+            };
+            container.appendChild(line);
+
+            const label = document.createElement('div');
+            label.className = labelClass;
+            label.style.left = `calc(${left}% - 15px)`;
+            label.innerText = wavelength.toFixed(1);
+            container.appendChild(label);
+          }
+        }
+      });
+    }
+
+    function updateZoomForComparison(id, zoomVal) {
+      const spectrum = document.getElementById(id);
+      const center = spectrum.dataset.center ? parseInt(spectrum.dataset.center) : 600;
+      spectrum.dataset.zoom = zoomVal;
+      const gasId = id.split("_")[1];
+      const mode = document.getElementById("compareModeSelect").value;
+      renderLines(id, gasId, mode, null, parseFloat(zoomVal), center);
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        applySelection();
+    });
+    </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const gasSelect = document.getElementById('gasSelect');
+    const gasLabel = document.getElementById('primaryLabel');
+    const modeSelect = document.getElementById('modeSelect');
+    const zoomSlider = document.getElementById('zoomSlider');
+    const zoomCenter = document.getElementById('zoomCenter');
+
+    document.querySelectorAll('button').forEach(btn => {
+      if (btn.textContent.includes('פעל מצב בוחן')) {
+        btn.addEventListener('click', function () {
+            const gases = Array.from(gasSelect.options).filter(opt => opt.value && opt.value !== 'anonymous');
+            const random = gases[Math.floor(Math.random() * gases.length)];
+            const gas = random.value;
+            const mode = modeSelect.value;
+            const zoom = parseFloat(zoomSlider.value);
+            const center = parseInt(zoomCenter.value);
+            renderLines('spectrumPrimary', gas, mode, 'primaryLabel', zoom, center);
+            gasLabel.textContent = ""; // Hide label
+        });
+      }
+    });
+
+    gasSelect.addEventListener('change', function () {
+        gasLabel.style.visibility = 'visible';
+        gasLabel.textContent = "גז נבחר: " + gasSelect.value;
+    });
+});
+</script>
+<script>
+function drawAbsorptionLines(canvas, wavelengths) {
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    wavelengths.forEach(wl => {
+        const x = (wl - 350) / (900 - 350) * canvas.width;
+        ctx.fillRect(x, 0, 2, canvas.height);
+    });
+}
+
+function drawEmissionLines(canvas, wavelengths) {
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    wavelengths.forEach(wl => {
+        const x = (wl - 350) / (900 - 350) * canvas.width;
+        ctx.fillRect(x, 0, 2, canvas.height);
+    });
+}
+
+function drawEdgeLabels(canvas, start, end) {
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white';
+    ctx.font = '12px Arial';
+    ctx.fillText(start + " נ"מ", 5, canvas.height - 5);
+    const textWidth = ctx.measureText(end + " נ"מ").width;
+    ctx.fillText(end + " נ"מ", canvas.width - textWidth - 5, canvas.height - 5);
+}
+</script>
+<script>
+const gasExplanations = {
+  hydrogen: "",
+  helium: "",
+  oxygen: "קווי בליעה בולטים בתחום האדום-כחול עקב מעברים אלקטרוניים",
+  methane: "בעל קווים בתחום האינפרה-אדום עקב רטט המולקולה",
+  neon: "פליטה חזקה בתחום האדום-כתום בתנאי פריקה חשמלית",
+  argon: "ספקטרום בליעה מצוי בתחום הכחול-סגול בשל מבנה האלקטרונים",
+  krypton: "פליטות חלשות באולטרה-סגול וכחול",
+  xenon: "ספקטרום בליעה רחב בתחום הנראה",
+  nitrogen: "קווים בתחומים מגוונים עקב מבנה מורכב",
+  co2: "פליטה בתחום האינפרה-אדום בשל רטט מתוחכם"
+};
+
+const gasCodeToName = {
+  h: "hydrogen",
+  he: "helium",
+  ne: "neon",
+  o: "oxygen",
+  n: "nitrogen",
+  ar: "argon",
+  kr: "krypton",
+  xe: "xenon",
+  ch4: "methane",
+  co2: "co2"
+};
+
+
+
+window.addEventListener("load", function() {
+  
+  
+});
+</script>
+<div id="spectrumExportZone"><div style="display: flex; flex-direction: row-reverse; justify-content: center; align-items: flex-start; gap: 0px; margin: 0; padding: 0;"><div class="spectrum emission" id="lymanSpectrum" style="width: 275px; height: 100px; background-color: #f5e6ff; display: none; margin: 0; padding: 0;"></div><div class="spectrum" id="spectrumPrimary" style="margin: 0; padding: 0;"></div></div></div><button onclick="exportSpectrumAsImage()" style="display:block; margin: 15px auto;">📷 שמור את הספקטרום כתמונה</button><div id="bankedQuizSection" style="margin-top: 40px; padding: 15px; border-top: 2px solid #aaa;">
+<h3>שאלת בוחן מספרית</h3>
+<button onclick="loadBankedQuestion()">הפעל שאלה</button>
+<div id="bankedQuestion" style="margin-top: 10px;"></div>
+<div id="bankedAnswerResult" style="margin-top: 10px;"></div>
+</div>
+<script>
+window.onload = function() {
+  const quizBank = [
+    {
+      question: "מהו אורך הגל של הקו המרכזי בספקטרום הפליטה של מימן? (ננומטר)",
+      answer: "656.3",
+      type: "number"
+    },
+    {
+      question: "מהי התדירות של גל שאורכו 500 ננומטר? (בפורמט כמו 6e14)",
+      answer: "6e14",
+      type: "text"
+    },
+    {
+      question: "מהו אורך הגל של קו בליעה אופייני בגז ניאון? (ננומטר)",
+      answer: "585.2",
+      type: "number"
+    },
+    {
+      question: "איזה אורך גל נמצא קרוב יותר לספקטרום האולטרה סגול — 400 או 700?",
+      answer: "400",
+      type: "number"
+    },
+    {
+      question: "איזה גז יוצר קו פליטה באורך גל של כ-656.3 נ\"מ?",
+      answer: "מימן",
+      type: "text"
+    }
+  ,
+
+    {
+      question: "כמה קווים עיקריים קיימים בספקטרום הפליטה של הליום?",
+      answer: "8",
+      type: "number"
+    },
+    {
+      question: "איזו תופעה יוצרת קווי בליעה בגז?",
+      answer: "מעבר אלקטרון לרמת אנרגיה גבוהה",
+      type: "text"
+    },
+    {
+      question: "מהו אורך גל אופייני לקו פליטה בארגון?",
+      answer: "706.7",
+      type: "number"
+    },
+    {
+      question: "איזה גז יוצר קווי בליעה באזור ה-430 נ\"מ?",
+      answer: "מתאן",
+      type: "text"
+    },
+    {
+      question: "איזו יחידת מידה מתאימה לאורך גל?",
+      answer: "ננומטר",
+      type: "text"
+    }
+];
+
+  window.loadBankedQuestion = function() {
+    const rand = Math.floor(Math.random() * quizBank.length);
+    const q = quizBank[rand];
+    const inputType = q.type === "number" ? "number" : "text";
+    const html = `
+      <p>${q.question}</p>
+      <input type="${inputType}" id="bankedInput" style="padding:5px;" />
+      <button onclick="checkBankedAnswer('${q.answer}')">בדוק</button>
+    `;
+    document.getElementById("bankedQuestion").innerHTML = html;
+    document.getElementById("bankedAnswerResult").innerHTML = "";
+  };
+
+  
+
+
+window.checkBankedAnswer = function(correctAnswer) {
+  const input = document.getElementById("bankedInput");
+  const value = input.value.trim();
+  const isCorrect = value === correctAnswer;
+
+  input.style.backgroundColor = isCorrect ? "#c8f7c5" : "#f7c5c5";
+
+  const feedback = document.getElementById("bankedAnswerResult");
+  if (feedback) {
+    feedback.innerHTML = isCorrect
+      ? "✔️ <strong>נכון!</strong>"
+      : "❌ <strong>לא נכון.</strong> התשובה הנכונה היא: <code>" + correctAnswer + "</code>";
+  }
+
+  if (isCorrect) quizScore++;
+  const scoreElem = document.getElementById("quizScore");
+  if (scoreElem) scoreElem.innerText = "ניקוד: " + quizScore;
+};
+
+
+
+};
+</script>
+<script>
+let quizScore = 0;
+
+document.addEventListener("DOMContentLoaded", function () {
+    function updateColorBandZoom(container, zoom) {
+        const band = container.querySelector(".color-band-stretchable");
+        if (band) {
+            band.style.transform = `scaleX(${zoom})`;
+        }
+    }
+
+    function updateLineZoom(container, zoom) {
+        const lines = container.querySelectorAll(".emission-line, .absorption-line");
+        lines.forEach(line => {
+            const originalLeft = parseFloat(line.dataset.originalLeft || line.style.left || 0);
+            if (!line.dataset.originalLeft) {
+                line.dataset.originalLeft = originalLeft;
+            }
+            line.style.left = (originalLeft * zoom) + "px";
+            line.style.width = "2px";
+        });
+    }
+
+    window.applyZoomFix = function (zoomFactor) {
+        const allSpectra = document.querySelectorAll(".spectrum-container");
+        allSpectra.forEach(container => {
+            updateColorBandZoom(container, zoomFactor);
+            updateLineZoom(container, zoomFactor);
+        });
+    };
+
+    setTimeout(() => {
+        const allSpectra = document.querySelectorAll(".spectrum-container");
+        allSpectra.forEach(container => {
+            updateColorBandZoom(container, 1);
+            updateLineZoom(container, 1);
+        });
+    }, 500);
+});
+</script>
+<script>
+let quizScore = 0;
+
+document.addEventListener("DOMContentLoaded", function () {
+    function updateZoomElements(container, zoom) {
+        const band = container.querySelector(".color-band-stretchable");
+        if (band) {
+            band.style.transform = `scaleX(${zoom})`;
+        }
+
+        const lines = container.querySelectorAll(".emission-line, .absorption-line");
+        lines.forEach(line => {
+            const originalLeft = parseFloat(line.dataset.originalLeft || line.style.left || 0);
+            if (!line.dataset.originalLeft) {
+                line.dataset.originalLeft = originalLeft;
+            }
+            line.style.left = (originalLeft * zoom) + "px";
+        });
+    }
+
+    window.applyZoomFix = function (zoomFactor) {
+        const containers = document.querySelectorAll(".spectrum-container");
+        containers.forEach(container => updateZoomElements(container, zoomFactor));
+    };
+});
+</script>
+<script>
+let quizScore = 0;
+
+document.addEventListener("DOMContentLoaded", function () {
+  const quizBank = [
+  {
+    "question": "מהו אורך הגל של הקו המרכזי בספקטרום הפליטה של מימן? (ננומטר)",
+    "answer": "656.3",
+    "type": "number"
+  },
+  {
+    "question": "מהי התדירות של גל שאורכו 500 ננומטר? (בפורמט כמו 6e14)",
+    "answer": "6e14",
+    "type": "text"
+  },
+  {
+    "question": "מהו אורך הגל של קו בליעה אופייני בגז ניאון? (ננומטר)",
+    "answer": "585.2",
+    "type": "number"
+  },
+  {
+    "question": "איזה אורך גל נמצא קרוב יותר לספקטרום האולטרה סגול — 400 או 700?",
+    "answer": "400",
+    "type": "number"
+  },
+  {
+    "question": "איזה גז יוצר קו פליטה באורך גל של כ-656.3 נ\"מ?",
+    "answer": "מימן",
+    "type": "text"
+  },
+  {
+    "question": "מהו אורך הגל של קו בליעה אופייני בגז חמצן? (ננומטר)",
+    "answer": "630.0",
+    "type": "number"
+  },
+  {
+    "question": "איזה גז יוצר קו פליטה באורך גל של 587.6 נ\"מ?",
+    "answer": "הליום",
+    "type": "text"
+  },
+  {
+    "question": "כמה קווי פליטה יש למתאן בתחום הנראה?",
+    "answer": "3",
+    "type": "number"
+  },
+  {
+    "question": "איזה אורך גל נפוץ בקווי בליעה של פחמן דו-חמצני?",
+    "answer": "467.8",
+    "type": "number"
+  },
+  {
+    "question": "מהו צבע האור באורך גל של 486 נ\"מ?",
+    "answer": "כחול",
+    "type": "text"
+  },
+  {
+    "question": "איזו יחידה מודדת תדירות?",
+    "answer": "הרץ",
+    "type": "text"
+  },
+  {
+    "question": "איזה גז יוצר קו פליטה באורך גל 667.8 נ\"מ?",
+    "answer": "הליום",
+    "type": "text"
+  },
+  {
+    "question": "מהו אורך הגל של קו פליטה עיקרי בארגון?",
+    "answer": "706.7",
+    "type": "number"
+  },
+  {
+    "question": "כמה קווי בליעה יש לניאון במערכת?",
+    "answer": "3",
+    "type": "number"
+  },
+  {
+    "question": "מה קורה לאלקטרון שקולט פוטון?",
+    "answer": "עולה לרמת אנרגיה גבוהה",
+    "type": "text"
+  },
+  {
+    "question": "מה שם התופעה שבה אטום פולט פוטון?",
+    "answer": "פליטה",
+    "type": "text"
+  },
+  {
+    "question": "איזה צבע מתאים לאורך גל של 700 נ\"מ?",
+    "answer": "אדום",
+    "type": "text"
+  },
+  {
+    "question": "איזה גז מתאים לקו פליטה ב-823.2 נ\"מ?",
+    "answer": "קסנון",
+    "type": "text"
+  },
+  {
+    "question": "כמה קווי פליטה עיקריים יש לקריפטון?",
+    "answer": "3",
+    "type": "number"
+  },
+  {
+    "question": "מהו אורך גל של קו בליעה בגז חנקן?",
+    "answer": "500.5",
+    "type": "number"
+  },
+  {
+    "question": "מהו סדר הצבעים בספקטרום הנראה מ-380 נ\"מ עד 700 נ\"מ?",
+    "answer": "סגול כחול ירוק צהוב כתום אדום",
+    "type": "text"
+  },
+  {
+    "question": "איזה גז נפוץ באורות ניאון?",
+    "answer": "ניאון",
+    "type": "text"
+  },
+  {
+    "question": "מהו אורך גל אופייני לפליטת הליום בתחום הכחול?",
+    "answer": "447.1",
+    "type": "number"
+  },
+  {
+    "question": "מהי המשמעות של פליטת אור על ידי גז?",
+    "answer": "ירידת אלקטרון לרמת אנרגיה נמוכה",
+    "type": "text"
+  },
+  {
+    "question": "איזה גז יוצר קווי פליטה באורך גל של 492.2 נ\"מ?",
+    "answer": "הליום",
+    "type": "text"
+  },
+  {
+    "question": "כמה קווי פליטה יש לחמצן בספקטרום הנראה?",
+    "answer": "3",
+    "type": "number"
+  },
+  {
+    "question": "איזה גז מתאים לקו בליעה ב-823.2 נ\"מ?",
+    "answer": "קסנון",
+    "type": "text"
+  },
+  {
+    "question": "מהו אורך הגל של קו בליעה במתאן?",
+    "answer": "480.2",
+    "type": "number"
+  },
+  {
+    "question": "איזה גז יוצר קו בליעה ב-640.2 נ\"מ?",
+    "answer": "ניאון",
+    "type": "text"
+  },
+  {
+    "question": "כמה קווי פליטה יש לפחמן דו-חמצני?",
+    "answer": "3",
+    "type": "number"
+  },
+  {
+    "question": "מהי אנרגיית פוטון של אורך גל 500 נ\"מ?",
+    "answer": "2.48e-19",
+    "type": "text"
+  },
+  {
+    "question": "איזה גז יוצר קו פליטה באזור האולטרה סגול?",
+    "answer": "קריפטון",
+    "type": "text"
+  },
+  {
+    "question": "איזו תופעה נצפית כאשר ספקטרום מכיל קווים כהים על רקע צבעוני?",
+    "answer": "בליעה",
+    "type": "text"
+  },
+  {
+    "question": "מה שם היחידה המתאימה לאורך גל בתחום הנראה?",
+    "answer": "ננומטר",
+    "type": "text"
+  },
+  {
+    "question": "מה הגז שיוצר קו פליטה ב-704 נ\"מ?",
+    "answer": "ניאון",
+    "type": "text"
+  },
+  {
+    "question": "איזה גז יוצר פליטה חזקה באדום-כתום?",
+    "answer": "ניאון",
+    "type": "text"
+  },
+  {
+    "question": "מהי מהירות האור במטר לשנייה?",
+    "answer": "299792458",
+    "type": "number"
+  },
+  {
+    "question": "איזו קפיצה אנרגטית באטום יוצרת פליטת אור?",
+    "answer": "מרמה גבוהה לנמוכה",
+    "type": "text"
+  },
+  {
+    "question": "איזו מערכת גזים מציגה קווים סביב 760 נ\"מ?",
+    "answer": "קריפטון",
+    "type": "text"
+  },
+  {
+    "question": "כמה קווים יש בגז הליום בטווח הנראה?",
+    "answer": "8",
+    "type": "number"
+  },
+  {
+    "question": "איזו יחידת מידה מתאימה לתדירות אור?",
+    "answer": "הרץ",
+    "type": "text"
+  },
+  {
+    "question": "איזה גז יוצר בליעה ב-434 נ\"מ?",
+    "answer": "מימן",
+    "type": "text"
+  },
+  {
+    "question": "מהו תחום אורכי הגל של אור נראה?",
+    "answer": "380-700",
+    "type": "text"
+  },
+  {
+    "question": "איזו תופעה יוצרת ספקטרום פליטה בדיסקרטיות?",
+    "answer": "מעברים קוונטיים של אלקטרון",
+    "type": "text"
+  },
+  {
+    "question": "מה המשמעות של ספקטרום פליטה בדיד?",
+    "answer": "פוטונים נפלטים בתדרים מסוימים בלבד",
+    "type": "text"
+  }
+];
+
+  window.loadBankedQuestion = function () {
+    const rand = Math.floor(Math.random() * quizBank.length);
+    const q = quizBank[rand];
+    const inputType = q.type === "number" ? "number" : "text";
+    const html = `
+      <p>${q.question}</p>
+      <input type="${inputType}" id="bankedInput" style="padding:5px;" />
+      <button onclick="checkBankedAnswer('${q.answer}')">בדוק</button>
+    `;
+    document.getElementById("bankedQuestion").innerHTML = html;
+    document.getElementById("bankedAnswerResult").innerHTML = "";
+  }
+
+  
+
+
+window.checkBankedAnswer = function(correctAnswer) {
+  const input = document.getElementById("bankedInput");
+  const value = input.value.trim();
+  const isCorrect = value === correctAnswer;
+
+  input.style.backgroundColor = isCorrect ? "#c8f7c5" : "#f7c5c5";
+
+  const feedback = document.getElementById("bankedAnswerResult");
+  if (feedback) {
+    feedback.innerHTML = isCorrect
+      ? "✔️ <strong>נכון!</strong>"
+      : "❌ <strong>לא נכון.</strong> התשובה הנכונה היא: <code>" + correctAnswer + "</code>";
+  }
+
+  if (isCorrect) quizScore++;
+  const scoreElem = document.getElementById("quizScore");
+  if (scoreElem) scoreElem.innerText = "ניקוד: " + quizScore;
+};
+
+
+
+});
+</script>
+<script>
+function updateSpectrumBackground(containerId, range) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  if (range === "uv") {
+    container.className = "spectrum";
+    container.style.setProperty("background", "#e6ccff", "important");
+  } else if (range === "ir") {
+    container.className = "spectrum";
+    container.style.setProperty("background", "crimson", "important");
+  } else {
+    container.className = "spectrum emission";
+    container.style.setProperty("background", "linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red)", "important");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const dropdown = document.getElementById("spectrumRange");
+  if (dropdown) {
+    const initial = dropdown.value;
+    updateSpectrumBackground("spectrumPrimary", initial);
+
+    dropdown.addEventListener("change", function () {
+      updateSpectrumBackground("spectrumPrimary", this.value);
+    });
+  }
+});
+</script>
+<div style="display: flex; justify-content: center; align-items: flex-start; gap: 10px; margin-top: 0px;">
+<div id="spectrumPrimaryContainer"></div>
+<div id="lymanSpectrumWrapper" style="flex-shrink: 0;">
+<script>
+const lymanSeries = [121.6, 102.6, 97.3, 95.0, 93.8];
+
+function formatUnits(freq) {
+  if (freq >= 1e12) return (freq / 1e12).toFixed(2) + ' טרה הרץ';
+  if (freq >= 1e9) return (freq / 1e9).toFixed(2) + ' גיגה הרץ';
+  if (freq >= 1e6) return (freq / 1e6).toFixed(2) + ' מגה הרץ';
+  return freq.toFixed(2) + ' הרץ';
+}
+
+function renderLymanSeries(containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  container.className = 'spectrum emission';
+  const c = 299792458;
+  lymanSeries.forEach(wavelength => {
+    if (wavelength >= 90 && wavelength <= 200) {
+      const left = ((wavelength - 90) / (200 - 90)) * 100;
+      const line = document.createElement('div');
+      line.className = 'line emission';
+      line.style.left = left + '%';
+      line.title = wavelength.toFixed(1) + " נ״מ";
+      line.onclick = () => {
+        const freq = c / (wavelength * 1e-9);
+        const display = document.getElementById("freqDisplay");
+        if (display) {
+          display.innerText = "תדירות: " + formatUnits(freq);
+        }
+      };
+      container.appendChild(line);
+    }
+  });
+}
+
+const originalApplySelection = applySelection;
+applySelection = function() {
+  originalApplySelection();
+  const gas = document.getElementById('gasSelect').value;
+  const range = document.getElementById('spectrumRange')?.value || "visible";
+  const lymanDiv = document.getElementById("lymanSpectrum");
+  if (gas === "h" && range === "uv") {
+    lymanDiv.style.display = "block";
+    renderLymanSeries("lymanSpectrum");
+  } else {
+    lymanDiv.style.display = "none";
+  }
+};
+</script>
+</div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script>
+function exportSpectrumAsImage() {
+  const container = document.getElementById('spectrumExportZone');
+  if (!container) {
+    alert("לא נמצא אלמנט לייצוא.");
+    return;
+  }
+  html2canvas(container).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'spectrum_export.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
+</script></body>
+</html>

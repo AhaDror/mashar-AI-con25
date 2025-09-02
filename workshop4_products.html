@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תוצרי פיתוח - סדנה 4: פיתוח ללא מתכנתים</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background: #0a0a1a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background:
+                linear-gradient(rgba(10, 10, 26, 0.7), rgba(10, 10, 26, 0.5)),
+                url('images/galaxy-background.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4, #10b981, #14b8a6);
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+            letter-spacing: -2px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #e2e8f0;
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            margin-bottom: 40px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.5);
+        }
+
+        .products-section {
+            background: linear-gradient(135deg, #1e1b4b 0%, #581c87 100%);
+            padding: 80px 20px;
+            position: relative;
+        }
+
+        .products-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #10b981, #8b5cf6, #06b6d4, transparent);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #8b5cf6, #10b981, #06b6d4);
+        }
+
+        .product-header {
+            padding: 30px 30px 20px;
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .product-author {
+            font-size: 1.1rem;
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .product-description {
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .product-features {
+            margin-bottom: 25px;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 3px;
+        }
+
+        .product-actions {
+            padding: 0 30px 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .product-link {
+            background: linear-gradient(135deg, #06b6d4, #10b981);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+            min-width: 140px;
+        }
+
+        .product-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        .product-link.demo {
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+        }
+
+        .product-link.source {
+            background: linear-gradient(135deg, #f59e0b, #dc2626);
+        }
+
+        .footer-section {
+            background: #0a0a1a;
+            padding: 60px 20px 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #10b981);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+        }
+
+        .footer-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .footer-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #06b6d4, #10b981);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            text-decoration: none;
+            box-shadow: 0 15px 35px rgba(6, 182, 212, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .footer-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(6, 182, 212, 0.5);
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .product-card {
+                margin: 0 10px;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .product-link {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="main-title">תוצרי פיתוח</h1>
+            <p class="subtitle">סדנה 4: פיתוח ללא מתכנתים</p>
+            <a href="index.html" class="back-button">← חזרה לעמוד הראשי</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <h2 class="section-title">התוצרים שנוצרו בסדנה</h2>
+
+            <div class="products-grid">
+                <!-- דור טוקר - סימולציית דעיכה רדיואקטיבית -->
+                <div class="product-card">
+                    <div class="product-header">
+                        <h3 class="product-title">סימולציית דעיכה רדיואקטיבית</h3>
+                        <p class="product-author">👨‍🔬 דור טוקר</p>
+                        <p class="product-description">
+                            סימולציה אינטראקטיבית המתארת את תהליך הדעיכה הרדיואקטיבית של איזוטופים שונים.
+                            הכלי מאפשר בחירת איזוטופים שונים, הגדרת פרמטרים מותאמים אישית,
+                            וצפייה בגרף דינמי של תהליך הדעיכה עם שאלות בוחן אינטראקטיביות.
+                        </p>
+                        <div class="product-features">
+                            <span class="feature-tag">📊 גרפים דינמיים</span>
+                            <span class="feature-tag">🎯 שאלות בוחן</span>
+                            <span class="feature-tag">⚙️ פרמטרים מותאמים</span>
+                            <span class="feature-tag">💾 שמירת תמונות</span>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <a href="assets/apps/dor_talker-half_life_simulation.html" target="_blank"
+                            class="product-link demo">
+                            🚀 נסה את הסימולציה
+                        </a>
+                    </div>
+                </div>
+
+                <!-- דור טוקר - סימולציית ספקטרום -->
+                <div class="product-card">
+                    <div class="product-header">
+                        <h3 class="product-title">סימולציית ספקטרום בליעה ופליטה</h3>
+                        <p class="product-author">👨‍🔬 דור טוקר</p>
+                        <p class="product-description">
+                            כלי מתקדם להדגמת ספקטרום הבליעה והפליטה של גזים שונים.
+                            מאפשר בחירת גזים, מעבר בין מצבי תצוגה, בחירת טווח ספקטרום,
+                            וכלול עם מערכת שאלות בוחן מקיפה על פיזיקה של ספקטרום.
+                        </p>
+                        <div class="product-features">
+                            <span class="feature-tag">🌈 ספקטרום ויזואלי</span>
+                            <span class="feature-tag">🧪 גזים מרובים</span>
+                            <span class="feature-tag">📏 טווחי ספקטרום</span>
+                            <span class="feature-tag">❓ בוחן מקיף</span>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <a href="assets/apps/dor_talker-spectral_lines_simulation.html" target="_blank"
+                            class="product-link demo">
+                            🚀 נסה את הסימולציה
+                        </a>
+                    </div>
+                </div>
+
+                <!-- כרטיס לדוגמה לעתיד -->
+                <div class="product-card" style="opacity: 0.6;">
+                    <div class="product-header">
+                        <h3 class="product-title">התוצר הבא שלך?</h3>
+                        <p class="product-author">👨‍💻 משתתף בסדנה</p>
+                        <p class="product-description">
+                            מקום לתוצר הבא שייווצר בסדנה. כל משתתף יכול ליצור כלי דיגיטלי מתקדם
+                            ללא ידע בתכנות, תוך שימוש ב-LLM כמתכנת הפרטי שלו.
+                        </p>
+                        <div class="product-features">
+                            <span class="feature-tag">🆕 חדש</span>
+                            <span class="feature-tag">💡 רעיון מקורי</span>
+                            <span class="feature-tag">🛠️ פיתוח AI</span>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <a href="#" class="product-link demo" style="opacity: 0.5;">
+                            🚀 בקרוב...
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <section class="footer-section">
+        <h2 class="footer-title">רוצים ליצור תוצר משלכם?</h2>
+        <p style="color: #e2e8f0; font-size: 1.2rem; margin-bottom: 30px;">
+            השתמשו במדריך הפיתוח ובמאגר הכלים כדי ליצור כלי דיגיטלי מתקדם משלכם
+        </p>
+        <div class="footer-buttons">
+            <a href="ai_development_guide-CluadeV1.html" class="footer-btn">📖 מדריך פיתוח AI</a>
+            <a href="index.html#ai-tools" class="footer-btn">🛠️ מאגר כלי AI</a>
+        </div>
+    </section>
+</body>
+
+</html>

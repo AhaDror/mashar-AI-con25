@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>דעיכה רדיואקטיבית</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      direction: rtl;
+      padding: 20px;
+      background-color: #f4f4f9;
+      color: #333;
+      font-size: 24px;
+    }
+    canvas {
+      max-width: 800px;
+      margin: 20px auto;
+      display: block;
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    label, select, input, button {
+      margin: 5px;
+    }
+    .question-box {
+      background-color: #e0f7fa;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>דעיכה רדיואקטיבית של איזוטופים</h1>
+
+<div class="controls">
+  <label for="isotope">בחר איזוטופ:</label>
+  <select id="isotope">
+    <option value="Z99|30|שניות">Z-99 (30 שניות)</option>
+    <option value="I131|8|ימים">I-131 (8 ימים)</option>
+    <option value="C14|5730|שנים">C-14 (5730 שנים)</option>
+    <option value="custom">מותאם אישית</option>
+  </select>
+
+  <div id="customIsotopeControls" style="display: none;">
+    <label for="customHalfLife">זמן מחצית חיים:</label>
+    <input type="number" id="customHalfLife" value="100">
+    <select id="customUnit">
+      <option value="שניות">שניות</option>
+      <option value="דקות">דקות</option>
+      <option value="שעות">שעות</option>
+      <option value="ימים">ימים</option>
+      <option value="שנים">שנים</option>
+    </select>
+  </div>
+
+  <br>
+  <label for="initialAmount">כמות התחלתית:</label>
+  <input type="number" id="initialAmount" value="1000" min="1">
+  <button onclick="startDecay()">התחל</button>
+  <button onclick="pauseDecay()">השהה</button>
+  <button onclick="resetDecay()">אפס</button>
+  <button onclick="saveChart()">שמור גרף כתמונה</button>
+</div>
+
+<canvas id="decayChart"></canvas>
+
+<div id="info"></div>
+
+<div class="question-box">
+  <strong>❓ שאלה:</strong>
+  <p id="questionText">...</p>
+  <div id="answerButtons"></div>
+  <p id="feedback"></p>
+  <p id="scoreDisplay">ניקוד: 0 מתוך 0</p>
+</div>
+
+<script>
+  let chart, interval, time = 0;
+  let dataPoints = [], labels = [];
+  let halfLife = 30, unit = "שניות", initialAmount = 1000;
+
+  let score = 0;
+  let total = 0;
+
+  function updateScoreDisplay() {
+    document.getElementById("scoreDisplay").innerText = `ניקוד: ${score} מתוך ${total}`;
+  }
+
+  const questionBank = [0.25, 0.5, 0.75, 0.125, 0.0625, 0.875, 0.1, 0.6, 0.4, 0.2];
+  let currentQuestion = -1;
+
+  document.getElementById("isotope").addEventListener("change", function () {
+    document.getElementById("customIsotopeControls").style.display =
+      this.value === "custom" ? "block" : "none";
+  });
+
+  function startDecay() {
+    resetDecay();
+    const selected = document.getElementById("isotope").value;
+    if (selected === "custom") {
+      halfLife = parseFloat(document.getElementById("customHalfLife").value);
+      unit = document.getElementById("customUnit").value;
+    } else {
+      const parts = selected.split("|");
+      halfLife = parseFloat(parts[1]);
+      unit = parts[2];
+    }
+
+    initialAmount = parseInt(document.getElementById("initialAmount").value);
+    time = 0;
+    dataPoints = [initialAmount];
+    labels = [0];
+    updateChart();
+
+    const isLongUnit = unit.includes("שנה");
+    const stepSize = isLongUnit ? 0.01 * halfLife : 1;
+
+    interval = setInterval(() => {
+      time += stepSize;
+      const remaining = initialAmount * Math.pow(0.5, time / halfLife);
+      dataPoints.push(remaining.toFixed(2));
+      labels.push(time.toFixed(2));
+      updateChart();
+      document.getElementById("info").innerText = `זמן שעבר: ${time.toFixed(2)} ${unit} | אטומים שנותרו: ${remaining.toFixed(2)}`;
+    }, 500);
+  }
+
+  function pauseDecay() {
+    clearInterval(interval);
+  }
+
+  function resetDecay() {
+    clearInterval(interval);
+    time = 0;
+    dataPoints = [];
+    labels = [];
+    updateChart();
+    document.getElementById("info").innerText = '';
+  }
+
+  function updateChart() {
+    if (!chart) {
+      const ctx = document.getElementById('decayChart').getContext('2d');
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'כמות אטומים',
+            data: dataPoints,
+            borderColor: 'blue',
+            fill: false,
+            tension: 0.1
+          }]
+        },
+        options: {
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: unit
+              },
+plugins: {
+          annotation: {
+            annotations: {
+              line25: {
+                type: 'line',
+                mode: 'horizontal',
+                scaleID: 'y',
+                value: initialAmount * 0.25,
+                borderColor: 'red',
+                borderWidth: 2,
+                label: {
+                  enabled: true,
+                  content: '25%',
+                  position: 'end'
+                }
+              },
+              line75: {
+                type: 'line',
+                mode: 'horizontal',
+                scaleID: 'y',
+                value: initialAmount * 0.75,
+                borderColor: 'green',
+                borderWidth: 2,
+                label: {
+                  enabled: true,
+                  content: '75%',
+                  position: 'end'
+                }
+              }
+            }
+          }
+        }
+            },
+            y: {
+              min: 0,
+              max: initialAmount * 1.1,
+              title: {
+                display: true,
+                text: 'מספר אטומים'
+              }
+            }
+          }
+        }
+      });
+    } else {
+      chart.data.labels = labels;
+      chart.data.datasets[0].data = dataPoints;
+      chart.update();
+    }
+  }
+
+function saveChart() {
+    const link = document.createElement('a');
+    link.download = 'גרף_דעיכה.png';
+    link.href = document.getElementById('decayChart').toDataURL();
+    link.click();
+  }
+
+  function getNextQuestion() {
+    currentQuestion = (currentQuestion + 1) % questionBank.length;
+    const target = questionBank[currentQuestion];
+    const text = `מה תהיה הכמות לאחר ${Math.log2(1 / target).toFixed(1)} מחציות חיים?`;
+    document.getElementById("questionText").innerText = text;
+
+    const answerButtons = document.getElementById("answerButtons");
+    answerButtons.innerHTML = "";
+
+    const distractors = [];
+    while (distractors.length < 3) {
+      let rand = Math.random() * 0.9 + 0.05;
+      rand = Math.round(rand * 100) / 100;
+      if (Math.abs(rand - target) > 0.1 && !distractors.includes(rand)) {
+        distractors.push(rand);
+      }
+    }
+
+    const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
+    choices.forEach(val => {
+      const btn = document.createElement("button");
+      btn.innerText = `${Math.round(val * 100)}%`;
+      btn.onclick = () => checkAnswer(val, target);
+      answerButtons.appendChild(btn);
+    });
+  }
+
+  function checkAnswer(selected, correct) {
+    const feedback = document.getElementById("feedback");
+    total++;
+    if (Math.abs(selected - correct) < 0.01) {
+      score++;
+      feedback.innerHTML = "✔️ תשובה נכונה!";
+    } else {
+      feedback.innerHTML = `❌ תשובה שגויה. התשובה הנכונה היא ${Math.round(correct * 100)}%.`;
+    }
+    updateScoreDisplay();
+    setTimeout(() => {
+      feedback.innerHTML = "";
+      getNextQuestion();
+    }, 3000);
+  }
+
+  getNextQuestion();
+</script>
+
+</body>
+</html>
